@@ -133,6 +133,16 @@ body::before{
 .fc-reason{font-size:11px;color:var(--text2);line-height:1.7;font-weight:300;}
 .prod{margin-top:7px;font-size:11px;}
 .prod span{color:var(--gold);font-weight:700;}
+.shop-links{margin-top:9px;display:flex;gap:8px;flex-wrap:wrap;}
+.shop-btn{
+  display:inline-block;padding:5px 12px;border-radius:3px;
+  font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.08em;
+  text-decoration:none;transition:all .18s;border:1px solid;
+}
+.shop-btn-m{color:#00e5d4;border-color:rgba(0,229,212,.4);background:rgba(0,229,212,.07);}
+.shop-btn-m:hover{background:rgba(0,229,212,.18);border-color:var(--cyan);}
+.shop-btn-v{color:#f0b429;border-color:rgba(240,180,41,.4);background:rgba(240,180,41,.06);}
+.shop-btn-v:hover{background:rgba(240,180,41,.16);border-color:var(--gold);}
 
 .expand-btn{
   margin-top:10px;width:100%;padding:10px;
@@ -685,6 +695,12 @@ function render() {
       dimsHtml +
       '<div class="fc-reason">'+f.reason+'</div>' +
       (f.product ? '<div class="prod">📌 参考商品: <span>'+f.product+'</span></div>' : '') +
+      '<div class="shop-links">' +
+        '<a class="shop-btn shop-btn-m" href="https://px.a8.net/svt/ejp?a8mat=4B3XB5+354DPU+5MZI+5YRHE" rel="nofollow" target="_blank">ムラサキスポーツで探す</a>' +
+        '<img border="0" width="1" height="1" src="https://www18.a8.net/0.gif?a8mat=4B3XB5+354DPU+5MZI+5YRHE" alt="">' +
+        '<a class="shop-btn shop-btn-v" href="https://px.a8.net/svt/ejp?a8mat=4B3XB5+36B8XE+4ABU+NVWSI" rel="nofollow" target="_blank">ヴィクトリアで探す</a>' +
+        '<img border="0" width="1" height="1" src="https://www16.a8.net/0.gif?a8mat=4B3XB5+36B8XE+4ABU+NVWSI" alt="">' +
+      '</div>' +
       '</div>';
   }
 

@@ -143,6 +143,8 @@ body::before{
 .shop-btn-m:hover{background:rgba(0,229,212,.18);border-color:var(--cyan);}
 .shop-btn-v{color:#f0b429;border-color:rgba(240,180,41,.4);background:rgba(240,180,41,.06);}
 .shop-btn-v:hover{background:rgba(240,180,41,.16);border-color:var(--gold);}
+.shop-btn-c{color:#ff6b6b;border-color:rgba(255,107,107,.4);background:rgba(255,107,107,.06);}
+.shop-btn-c:hover{background:rgba(255,107,107,.16);border-color:#ff6b6b;}
 
 .expand-btn{
   margin-top:10px;width:100%;padding:10px;
@@ -696,6 +698,8 @@ function render() {
       '<div class="fc-reason">'+f.reason+'</div>' +
       (f.product ? '<div class="prod">📌 参考商品: <span>'+f.product+'</span></div>' : '') +
       (f.tag !== 'ng' ? '<div class="shop-links">' : '<div style="display:none">') +
+        '<a class="shop-btn shop-btn-c" href="https://px.a8.net/svt/ejp?a8mat=4B3XB5+4HCHPU+5LNQ+5YJRM" rel="nofollow" target="_blank">メルカリで探す</a>' +
+        '<img border="0" width="1" height="1" src="https://www19.a8.net/0.gif?a8mat=4B3XB5+4HCHPU+5LNQ+5YJRM" alt="">' +
         '<a class="shop-btn shop-btn-m" href="https://px.a8.net/svt/ejp?a8mat=4B3XB5+354DPU+5MZI+5YRHE" rel="nofollow" target="_blank">ムラサキスポーツで探す</a>' +
         '<img border="0" width="1" height="1" src="https://www18.a8.net/0.gif?a8mat=4B3XB5+354DPU+5MZI+5YRHE" alt="">' +
         '<a class="shop-btn shop-btn-v" href="https://px.a8.net/svt/ejp?a8mat=4B3XB5+36B8XE+4ABU+NVWSI" rel="nofollow" target="_blank">ヴィクトリアで探す</a>' +

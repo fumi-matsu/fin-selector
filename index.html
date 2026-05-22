@@ -695,7 +695,7 @@ function render() {
       dimsHtml +
       '<div class="fc-reason">'+f.reason+'</div>' +
       (f.product ? '<div class="prod">📌 参考商品: <span>'+f.product+'</span></div>' : '') +
-      '<div class="shop-links">' +
+      (f.tag !== 'ng' ? '<div class="shop-links">' : '<div style="display:none">') +
         '<a class="shop-btn shop-btn-m" href="https://px.a8.net/svt/ejp?a8mat=4B3XB5+354DPU+5MZI+5YRHE" rel="nofollow" target="_blank">ムラサキスポーツで探す</a>' +
         '<img border="0" width="1" height="1" src="https://www18.a8.net/0.gif?a8mat=4B3XB5+354DPU+5MZI+5YRHE" alt="">' +
         '<a class="shop-btn shop-btn-v" href="https://px.a8.net/svt/ejp?a8mat=4B3XB5+36B8XE+4ABU+NVWSI" rel="nofollow" target="_blank">ヴィクトリアで探す</a>' +

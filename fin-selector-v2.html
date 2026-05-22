@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ロングボード フィン セレクター</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;700&family=Space+Mono:wght@400;700&display=swap');
+:root{
+  --bg:#050e1c;--bg2:#091829;--bg3:#0d2040;
+  --cyan:#00e5d4;--cyan2:#00a89e;--orange:#ff7040;--red:#e63946;--gold:#f0b429;--yellow:#f5d76e;
+  --text:#c5d8e8;--text2:#6a8fa8;--border:rgba(0,229,212,0.12);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{overflow-x:hidden;}
+body{
+  background-color:#050e1c;
+  color:#c5d8e8;
+  font-family:'Noto Sans JP',sans-serif;
+  min-height:100vh;
+  position:relative;
+}
+body::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;bottom:0;
+  min-height:100%;
+  background-image:
+    linear-gradient(rgba(0,229,212,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,229,212,.03) 1px,transparent 1px);
+  background-size:48px 48px;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* PC=サイドバー広告、スマホ=1カラム */
+.page-layout{display:flex;gap:0;align-items:flex-start;position:relative;z-index:1;}
+.wrap{flex:1;min-width:0;max-width:1100px;margin:0 auto;padding:40px 20px;}
+
+/* 広告サイドバー：1300px以上のみ表示 */
+.ad-sidebar{display:none;width:168px;flex-shrink:0;padding:40px 12px 40px 4px;position:sticky;top:20px;align-self:flex-start;}
+.ad-unit{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:10px;margin-bottom:14px;text-align:center;}
+.ad-label{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.1em;color:var(--text2);text-transform:uppercase;margin-bottom:6px;opacity:.45;display:block;}
+.ad-ph{background:rgba(0,229,212,.03);border:1px dashed rgba(0,229,212,.13);border-radius:3px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:7px;color:rgba(0,229,212,.18);letter-spacing:.08em;text-align:center;line-height:1.7;margin:0 auto;}
+.ad-ph-v{width:120px;height:240px;}
+.ad-ph-s{width:120px;height:60px;}
+
+/* インライン広告（コンテンツ間・PC/SP共通） */
+.ad-inline{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:10px;margin:28px 0;text-align:center;}
+.ad-ph-h{width:100%;max-width:728px;height:90px;background:rgba(0,229,212,.03);border:1px dashed rgba(0,229,212,.13);border-radius:3px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:9px;color:rgba(0,229,212,.18);letter-spacing:.1em;margin:0 auto;}
+@media(max-width:600px){.ad-ph-h{height:50px;font-size:7px;}}
+
+@media(min-width:1300px){
+  .page-layout{max-width:1440px;margin:0 auto;padding:0 16px;}
+  .ad-sidebar{display:block;}
+  .wrap{padding:40px 20px;}
+}
+
+.hdr{margin-bottom:40px;border-left:3px solid var(--cyan);padding-left:16px;}
+.hdr .tag{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--cyan);text-transform:uppercase;margin-bottom:8px;}
+.hdr h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,6vw,56px);line-height:1;color:#fff;letter-spacing:.04em;margin-bottom:10px;}
+.hdr p{font-size:12px;color:var(--text2);line-height:1.8;font-weight:300;}
+
+.step{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);margin:28px 0 14px;display:flex;align-items:center;gap:8px;}
+.step::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* 用語解説ボックス */
+.term-box{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:20px;margin-bottom:24px;}
+.term-box .tb-title{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.15em;color:var(--cyan);text-transform:uppercase;margin-bottom:16px;}
+.term-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:10px;}
+.ti{border-radius:3px;padding:13px;}
+.ti.confirmed{border:1px solid rgba(0,229,212,.25);background:rgba(0,229,212,.03);}
+.ti.caution{border:1px solid rgba(245,215,110,.3);background:rgba(245,215,110,.04);}
+.ti .tn{font-size:12px;font-weight:700;color:#fff;margin-bottom:4px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.ti .tn .flag{font-size:9px;padding:1px 5px;border-radius:2px;font-family:'Space Mono',monospace;}
+.flag-ok{background:rgba(0,229,212,.2);color:var(--cyan);}
+.flag-caution{background:rgba(245,215,110,.25);color:var(--yellow);}
+.ti .td{font-size:11px;color:var(--text2);line-height:1.6;}
+.ti .te{font-size:10px;color:var(--cyan2);margin-top:4px;}
+
+/* コンケーブ注釈 */
+.concave-note{background:rgba(245,215,110,.06);border:1px solid rgba(245,215,110,.25);border-radius:4px;padding:16px 20px;margin-bottom:24px;font-size:12px;line-height:1.8;color:var(--text2);}
+.concave-note strong{color:var(--yellow);}
+
+.sel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(195px,100%),1fr));gap:14px;margin-bottom:24px;}
+.sel-box{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:16px;}
+.sel-box .sl{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.15em;color:var(--cyan);text-transform:uppercase;margin-bottom:11px;}
+.opts{display:flex;flex-direction:column;gap:5px;}
+.obtn{background:transparent;border:1px solid rgba(0,229,212,.18);border-radius:3px;padding:8px 11px;
+  color:var(--text2);font-family:'Noto Sans JP',sans-serif;font-size:11px;cursor:pointer;
+  text-align:left;transition:all .17s;display:flex;align-items:flex-start;gap:8px;line-height:1.4;}
+.obtn:hover{border-color:var(--cyan);color:var(--text);background:rgba(0,229,212,.05);}
+.obtn.on{border-color:var(--cyan);background:rgba(0,229,212,.1);color:#fff;box-shadow:0 0 12px rgba(0,229,212,.18);}
+.dot{width:6px;height:6px;border-radius:50%;border:1.5px solid var(--cyan2);flex-shrink:0;margin-top:3px;transition:all .17s;}
+.obtn.on .dot{background:var(--cyan);border-color:var(--cyan);box-shadow:0 0 5px var(--cyan);}
+.sub{font-size:10px;color:var(--text2);display:block;margin-top:1px;}
+.obtn.on .sub{color:var(--cyan2);}
+
+.div{height:1px;background:linear-gradient(90deg,var(--cyan),transparent);margin:28px 0;opacity:.25;}
+
+.res-grid{display:grid;grid-template-columns:150px 1fr;gap:18px;margin-bottom:22px;}
+@media(max-width:640px){.res-grid{grid-template-columns:1fr;}}
+.board-col{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:18px;display:flex;flex-direction:column;align-items:center;gap:14px;}
+#bsvg{width:100px;}
+.bspecs{width:100%;}
+.bst{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.14em;color:var(--cyan);text-transform:uppercase;margin-bottom:9px;}
+.brow{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:11px;}
+.brow .bn{color:var(--text2);}
+.brow .bv{color:#fff;font-family:'Space Mono',monospace;font-size:9px;text-align:right;max-width:110px;}
+
+.fin-col{display:flex;flex-direction:column;gap:12px;}
+.ft{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;color:var(--cyan);text-transform:uppercase;}
+.fc{border-radius:4px;padding:16px;opacity:0;transform:translateY(5px);animation:fu .3s forwards;}
+.fc:nth-child(2){animation-delay:.07s;}.fc:nth-child(3){animation-delay:.14s;}.fc:nth-child(4){animation-delay:.21s;}
+@keyframes fu{to{opacity:1;transform:translateY(0);}}
+.fc.best{border:1px solid var(--cyan);background:rgba(0,229,212,.07);}
+.fc.alt{border:1px solid rgba(0,229,212,.2);background:rgba(0,229,212,.02);}
+.fc.ng{border:1px solid rgba(230,57,70,.4);background:rgba(230,57,70,.04);}
+.fc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;flex-wrap:wrap;gap:5px;}
+.fc-name{font-size:13px;font-weight:700;color:#fff;}
+.badge{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.1em;padding:2px 7px;border-radius:2px;text-transform:uppercase;}
+.b-best{background:var(--cyan);color:#000;}.b-alt{background:rgba(0,229,212,.2);color:var(--cyan);}.b-ng{background:rgba(230,57,70,.3);color:var(--red);}
+.fin-row{display:flex;gap:12px;align-items:flex-start;margin-bottom:9px;flex-wrap:wrap;}
+.dims{display:flex;flex-wrap:wrap;gap:5px;}
+.dc{font-family:'Space Mono',monospace;font-size:10px;background:rgba(0,229,212,.07);color:var(--cyan2);padding:3px 7px;border-radius:2px;display:flex;flex-direction:column;gap:1px;}
+.dk{font-size:8px;color:var(--text2);}.dv{color:var(--cyan);}
+.fc-reason{font-size:11px;color:var(--text2);line-height:1.7;font-weight:300;}
+.prod{margin-top:7px;font-size:11px;}
+.prod span{color:var(--gold);font-weight:700;}
+
+.pos-note{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:16px 20px;font-size:12px;color:var(--text2);line-height:1.8;margin-bottom:30px;}
+.pos-note strong{color:var(--cyan);}
+.pos-labels{display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:9px;color:var(--text2);margin-bottom:4px;margin-top:12px;}
+.pos-bar{position:relative;height:6px;background:rgba(255,255,255,.08);border-radius:3px;}
+.pos-cent{font-family:monospace;font-size:9px;color:var(--cyan);text-align:center;margin-top:4px;}
+
+/* 免責注記 */
+.disclaimer{background:rgba(245,215,110,.05);border:1px solid rgba(245,215,110,.2);border-radius:4px;padding:14px 18px;margin-bottom:28px;font-size:11px;color:var(--text2);line-height:1.7;}
+.disclaimer strong{color:var(--yellow);}
+
+.matrix{margin-top:44px;}
+.mh{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.05em;color:#fff;margin-bottom:5px;}
+.ms{font-size:12px;color:var(--text2);margin-bottom:20px;font-weight:300;}
+.mt-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.mt{width:100%;border-collapse:collapse;font-size:11px;min-width:600px;}
+.mt th{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);padding:9px 11px;text-align:left;border-bottom:1px solid var(--border);}
+.mt td{padding:10px 11px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--text2);vertical-align:top;line-height:1.6;}
+.mt tr:hover td{background:rgba(0,229,212,.025);}
+.mt td:first-child{color:#fff;font-weight:700;font-size:12px;}
+.chip{display:inline-block;padding:2px 5px;border-radius:2px;font-family:'Space Mono',monospace;font-size:9px;margin:1px;}
+.cg{background:rgba(0,229,212,.13);color:var(--cyan);}.co{background:rgba(255,112,64,.13);color:var(--orange);}.cr{background:rgba(230,57,70,.13);color:var(--red);}
+footer{margin-top:50px;padding-top:18px;border-top:1px solid var(--border);font-family:'Space Mono',monospace;font-size:9px;color:var(--text2);letter-spacing:.08em;opacity:.4;text-align:center;line-height:1.8;}
+</style>
+</head>
+<body>
+<div class="page-layout">
+<!-- 左サイドバー広告（PC 1300px以上のみ表示） -->
+<aside class="ad-sidebar">
+  <div class="ad-unit">
+    <span class="ad-label">AD</span>
+    <!-- ここにGoogle AdSenseコードを貼る -->
+    <!-- 例: <ins class="adsbygoogle" style="display:block;width:120px;height:240px" data-ad-client="ca-pub-XXXXXXXX" data-ad-slot="XXXXXXXX"></ins> -->
+    <div class="ad-ph ad-ph-v">120×240<br>広告枠</div>
+  </div>
+  <div class="ad-unit">
+    <span class="ad-label">AD</span>
+    <div class="ad-ph ad-ph-s">120×60<br>広告枠</div>
+  </div>
+</aside>
+<div class="wrap">
+
+<div class="hdr">
+  <div class="tag">LONGBOARD SINGLE FIN SELECTOR — BOARD x FIN PATTERN</div>
+  <h1>ロングボード<br>フィン選択ガイド</h1>
+  <p>アウトライン・テール・レール断面・ロッカーを選ぶと最適なフィン形状・寸法・商品名を表示します。<br>各用語の正確な定義を下記に記載しています。</p>
+</div>
+
+<!-- 免責 -->
+<div class="disclaimer">
+  <strong>⚠️ このガイドについて</strong><br>
+  フィン推奨は一般的な設計原則と海外文献・メーカー資料をもとにしたガイドラインです。寸法数値は参考目安であり、実際の商品仕様とは異なる場合があります。最終的なフィン選びはシェイパーまたは信頼できるサーフショップに相談することを推奨します。価格は2024〜2025年時点の参考値（1ドル＝159円換算）です。為替変動により実際の価格は異なります。
+</div>
+
+<div class="step">用語の正確な定義</div>
+
+<!-- レール用語解説 -->
+<div class="term-box">
+  <div class="tb-title">RAIL CROSS SECTION — レール断面の種類（英語正式名称付き）</div>
+  <div class="term-grid">
+    <div class="ti confirmed">
+      <div class="tn">50/50レール <span class="flag flag-ok">確認済み</span></div>
+      <div class="td">レールの最も厚い点（apex）がレール高さの中間にある断面。上下が均等に丸い。クラシックログ・ノーズライダーに多い。水の流れが穏やかで安定性が高い。英: 50/50 rail foil</div>
+      <div class="te">→ ソフトレール系の代表的な比率</div>
+    </div>
+    <div class="ti confirmed">
+      <div class="tn">60/40レール <span class="flag flag-ok">確認済み</span></div>
+      <div class="td">apexがレール高さの60%下側（底面寄り）にある断面。上が丸く下が薄い。ターン時の水のリリースが50/50より速い。現代ログの標準。英: 60/40 rail foil</div>
+      <div class="te">→ バランス型・現代ログ向き</div>
+    </div>
+    <div class="ti confirmed">
+      <div class="tn">80/20レール / ダウンレール <span class="flag flag-ok">確認済み</span></div>
+      <div class="td">apexが底面近くにある断面。「ダウンレール（down rail）」は通常この比率を指す。エッジが立ちターン時のホールドが鋭い。パフォーマンス系に多用。英: 80/20 rail foil / down rail</div>
+      <div class="te">→ ハードレール系・ターン切れ重視</div>
+    </div>
+    <div class="ti confirmed">
+      <div class="tn">ハードレール <span class="flag flag-ok">確認済み</span></div>
+      <div class="td">底面との境界に明確なエッジ（角）が存在するレール。ダウンレールとほぼ同義で使われることが多い。水が素早くリリースされスピードとターン精度が上がる。英: hard rail / down rail</div>
+      <div class="te">→ ショートボード・パフォーマンス系に多い</div>
+    </div>
+    <div class="ti confirmed">
+      <div class="tn">ソフトレール（ラウンドレール） <span class="flag flag-ok">確認済み</span></div>
+      <div class="td">エッジのない滑らかに丸まった断面。50/50がその代表。水が板に沿って包み込むように流れ安定性が高い。ロングボード・初心者向けに多い。英: soft rail / round rail</div>
+      <div class="te">→ クラシックログ・安定性重視に多い</div>
+    </div>
+
+    <div class="ti confirmed">
+      <div class="tn">前50/50・後60/40（コンビ） <span class="flag flag-ok">確認済み</span></div>
+      <div class="td">ノーズ付近は50/50のソフトレール、テールに向かって60/40以上のハードレールに移行する形状。ロングボードで最も多いオーダー形状。英: blended rail / combo rail（前半ソフト・後半ハード）</div>
+      <div class="te">→ バランス型・コンペ向きの定番</div>
+    </div>
+  </div>
+</div>
+
+<!-- コンケーブ・チャンネル注釈 -->
+<div class="concave-note">
+  <strong>📌 コンケーブ・チャンネルとフィン選びの関係</strong><br><br>
+  <strong>コンケーブ（凹み底面）</strong>：水流をフィンに向けて収束させ、リフトとドライブを高める。シングルコンケーブはフィン手前で最深になりフィンへの水流を強化する。コンケーブが強いほどフィンへの水圧が増すため、理論上はフィンをわずかに小さくできる方向に働く。ただしロングボードでは効果が間接的で、フィン選びの主要因にはならない。<br><br>
+  <strong>チャンネル（底面の溝）</strong>：水流をフィンに向けて方向付け、スピードとドライブを強化する。効果はコンケーブと似ており、フィン選びへの影響は間接的・軽微。<br><br>
+  <strong>結論</strong>：コンケーブ・チャンネルはフィン選びの主要因ではなく、アウトライン・テール・レール・ロッカーで決めたフィン選択を微調整する程度の影響にとどまる。シェイパーとオーダーする際に「コンケーブが強めなので少し小さいフィンを試す」程度の参考情報として使う。
+</div>
+
+<div class="step">01 — ボード形状を選択</div>
+<div class="sel-grid">
+
+  <div class="sel-box">
+    <div class="sl">アウトライン</div>
+    <div class="opts" id="s-outline">
+      <button class="obtn on" data-v="classic-log" onclick="pick(this,'outline')"><span class="dot"></span><span>クラシックログ<span class="sub">幅広・丸みのあるシルエット</span></span></button>
+      <button class="obtn" data-v="noserider" onclick="pick(this,'outline')"><span class="dot"></span><span>ノーズライダー<span class="sub">ノーズ極太・テールへ絞る形状</span></span></button>
+      <button class="obtn" data-v="performance-log" onclick="pick(this,'outline')"><span class="dot"></span><span>パフォーマンスログ<span class="sub">細め・ハイパフォーマンス系</span></span></button>
+      <button class="obtn" data-v="pig" onclick="pick(this,'outline')"><span class="dot"></span><span>ピグ / セミピグ<span class="sub">テール幅広・ノーズ絞る逆テーパー</span></span></button>
+      <button class="obtn" data-v="oval" onclick="pick(this,'outline')"><span class="dot"></span><span>オーバル / エッグ<span class="sub">全体的に丸みが強い形状</span></span></button>
+    </div>
+  </div>
+
+  <div class="sel-box">
+    <div class="sl">テール形状</div>
+    <div class="opts" id="s-tail">
+      <button class="obtn on" data-v="squaretail" onclick="pick(this,'tail')"><span class="dot"></span><span>スクエアテール<span class="sub">水の抜けが速くターンが軽い</span></span></button>
+      <button class="obtn" data-v="squash" onclick="pick(this,'tail')"><span class="dot"></span><span>スカッシュ<span class="sub">角を丸めたスクエア・汎用性高い</span></span></button>
+      <button class="obtn" data-v="rounded-pin" onclick="pick(this,'tail')"><span class="dot"></span><span>ラウンドピン<span class="sub">ホールド強・スムーズな弧のターン</span></span></button>
+      <button class="obtn" data-v="pin" onclick="pick(this,'tail')"><span class="dot"></span><span>ピンテール<span class="sub">ホールド最強・ドライブ重視</span></span></button>
+      <button class="obtn" data-v="moon" onclick="pick(this,'tail')"><span class="dot"></span><span>ムーンテール<span class="sub">丸く凹んだテール・ルーズ感</span></span></button>
+      <button class="obtn" data-v="swallow" onclick="pick(this,'tail')"><span class="dot"></span><span>スワロー / ツイン<span class="sub">二股テール・リリースが最も速い</span></span></button>
+      <button class="obtn" data-v="diamond" onclick="pick(this,'tail')"><span class="dot"></span><span>ダイヤモンドテール<span class="sub">スクエアとピンの中間的な特性</span></span></button>
+    </div>
+  </div>
+
+  <div class="sel-box">
+    <div class="sl">レール断面</div>
+    <div class="opts" id="s-rail">
+      <button class="obtn on" data-v="5050" onclick="pick(this,'rail')"><span class="dot"></span><span>50/50（ソフトレール）<span class="sub">均等に丸い・クラシック系</span></span></button>
+      <button class="obtn" data-v="6040" onclick="pick(this,'rail')"><span class="dot"></span><span>60/40<span class="sub">現代ログ標準・バランス型</span></span></button>
+      <button class="obtn" data-v="8020" onclick="pick(this,'rail')"><span class="dot"></span><span>80/20（ダウンレール）<span class="sub">エッジ立つ・ターン切れ重視</span></span></button>
+      <button class="obtn" data-v="combo" onclick="pick(this,'rail')"><span class="dot"></span><span>前50/50・後60/40（コンビ）<span class="sub">最も多いオーダー形状</span></span></button>
+    </div>
+  </div>
+
+  <div class="sel-box">
+    <div class="sl">ロッカー</div>
+    <div class="opts" id="s-rocker">
+      <button class="obtn on" data-v="flat-flat" onclick="pick(this,'rocker')"><span class="dot"></span><span>フラット全体<span class="sub">スピード最重視・トリム系</span></span></button>
+      <button class="obtn" data-v="flat-high" onclick="pick(this,'rocker')"><span class="dot"></span><span>ノーズフラット・テールハイ<span class="sub">テイクオフが早く動きやすい</span></span></button>
+      <button class="obtn" data-v="high-flat" onclick="pick(this,'rocker')"><span class="dot"></span><span>ノーズハイ・テールフラット<span class="sub">ノーズが上がりやすい設計</span></span></button>
+      <button class="obtn" data-v="moderate" onclick="pick(this,'rocker')"><span class="dot"></span><span>モデレート（中程度）<span class="sub">オールラウンドの標準設定</span></span></button>
+      <button class="obtn" data-v="high-high" onclick="pick(this,'rocker')"><span class="dot"></span><span>ノーズ・テール共にハイ<span class="sub">パワーウェーブ向き・小波不向き</span></span></button>
+    </div>
+  </div>
+
+  <div class="sel-box">
+    <div class="sl">ライディングスタイル</div>
+    <div class="opts" id="s-style">
+      <button class="obtn on" data-v="noseride" onclick="pick(this,'style')"><span class="dot"></span><span>ノーズライド最優先<span class="sub">ハング5・ハング10が目標</span></span></button>
+      <button class="obtn" data-v="trim" onclick="pick(this,'style')"><span class="dot"></span><span>トリム・フロー重視<span class="sub">波のラインに沿って走る</span></span></button>
+      <button class="obtn" data-v="turn" onclick="pick(this,'style')"><span class="dot"></span><span>ターン・コントロール重視<span class="sub">カットバック・ドロップニー</span></span></button>
+      <button class="obtn" data-v="comp" onclick="pick(this,'style')"><span class="dot"></span><span>コンペ（全技術）<span class="sub">ノーズライド＋ターン両立</span></span></button>
+    </div>
+  </div>
+
+</div>
+
+<div class="div"></div>
+
+<div class="step">02 — 推奨フィン</div>
+<div class="res-grid">
+  <div class="board-col">
+    <svg id="bsvg" viewBox="0 0 110 390" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="bgg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#0d2040"/>
+          <stop offset="100%" stop-color="#050e1c"/>
+        </linearGradient>
+        <filter id="glo">
+          <feGaussianBlur stdDeviation="2" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <path id="board-path" d="M55,8 C75,8 96,70 98,160 C100,260 92,330 55,378 C18,330 10,260 12,160 C14,70 35,8 55,8Z" fill="url(#bgg)" stroke="rgba(0,229,212,.6)" stroke-width="1.2"/>
+      <line x1="55" y1="10" x2="55" y2="375" stroke="rgba(255,255,255,.1)" stroke-width=".5" stroke-dasharray="4,3"/>
+      <g filter="url(#glo)" id="fin-marker">
+        <ellipse cx="55" cy="350" rx="5" ry="12" fill="none" stroke="#00e5d4" stroke-width="1.5"/>
+      </g>
+      <text x="55" y="5" fill="rgba(0,229,212,.45)" font-size="7" text-anchor="middle" font-family="monospace">NOSE</text>
+      <text x="55" y="390" fill="rgba(0,229,212,.45)" font-size="7" text-anchor="middle" font-family="monospace">TAIL</text>
+      <text id="fin-label" x="64" y="354" fill="#00e5d4" font-size="7" font-family="monospace">FIN</text>
+    </svg>
+    <div class="bspecs">
+      <div class="bst">BOARD PROFILE</div>
+      <div id="spec-rows"></div>
+    </div>
+  </div>
+  <div class="fin-col" id="fin-results">
+    <div class="ft">RECOMMENDED FIN</div>
+  </div>
+</div>
+
+<div class="pos-note" id="pos-note"></div>
+
+<!-- インライン広告（セレクター結果とマトリクスの間） -->
+<div class="ad-inline">
+  <span class="ad-label">AD</span>
+  <!-- ここにGoogle AdSenseコードを貼る -->
+  <!-- 例: <ins class="adsbygoogle" style="display:block;width:728px;height:90px" data-ad-client="ca-pub-XXXXXXXX" data-ad-slot="XXXXXXXX"></ins> -->
+  <div class="ad-ph-h">728×90 広告枠（PC） / レスポンシブ対応</div>
+</div>
+
+<div class="matrix">
+  <div class="mh">全パターン早見表</div>
+  <div class="ms">ボード形状 × フィン推奨パターン一覧（競技使用基準・目安）</div>
+  <div class="mt-wrap">
+  <table class="mt">
+    <thead>
+      <tr>
+        <th>ボード分類</th>
+        <th>テール</th>
+        <th>レール</th>
+        <th>推奨フィン（目安）</th>
+        <th>サイズ目安</th>
+        <th>位置</th>
+        <th>NG例</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>クラシックログ</td><td>スクエア / スカッシュ</td><td>50/50</td><td><span class="chip cg">ピボット大型</span><span class="chip cg">Dフィン</span></td><td>9〜10.5インチ</td><td>バック〜最後端</td><td><span class="chip cr">フレックス小型</span></td></tr>
+      <tr><td>ノーズライダー</td><td>スクエア / スカッシュ</td><td>50/50・前後コンビ</td><td><span class="chip cg">ピボット最大型</span><span class="chip cg">True Ames Heritage</span></td><td>9.5〜11インチ</td><td>最後端（バック限界）</td><td><span class="chip cr">細身ハイアスペクト</span></td></tr>
+      <tr><td>パフォーマンスログ</td><td>ラウンドピン / ピン</td><td>60/40・80/20</td><td><span class="chip cg">Greenough 4A</span><span class="chip cg">ハイアスペクト</span></td><td>8〜9.5インチ</td><td>センター〜やや前</td><td><span class="chip cr">ピボット大型</span></td></tr>
+      <tr><td>ピグ / セミピグ</td><td>スクエア〜スカッシュ（テール幅広）</td><td>50/50〜60/40</td><td><span class="chip cg">中型ピボット</span><span class="chip cg">Dフィン</span></td><td>8.5〜10インチ</td><td>センター</td><td><span class="chip cr">極小フレックス</span></td></tr>
+      <tr><td>オーバル / エッグ</td><td>ラウンド / オーバル</td><td>50/50〜コンビ</td><td><span class="chip cg">Greenough 4A</span><span class="chip co">中型汎用</span></td><td>8〜9.5インチ</td><td>センター</td><td><span class="chip cr">大型ピボット</span></td></tr>
+      <tr><td>スワロー / ツイン系</td><td>スワロー / ツイン</td><td>60/40・80/20</td><td><span class="chip cg">2+1 センター小型</span><span class="chip cg">サイドバイト付き</span></td><td>センター5.5〜7インチ</td><td>フォワード気味</td><td><span class="chip cr">ピボット大型 単体</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+</div><!-- /.matrix -->
+
+<footer>
+  LONGBOARD FIN SELECTOR — BOARD x FIN PATTERN GUIDE<br>
+  寸法・価格はすべて参考目安です。最終判断はシェイパーまたは信頼できるサーフショップに相談してください。<br>
+  レール用語の英語定義: surfing-waves.com / surfscience.com / boardcave.com / foammagazine.com より確認
+</footer>
+</div><!-- /.wrap -->
+</div><!-- /.page-layout -->
+
+<script>
+var state = { outline:'classic-log', tail:'squaretail', rail:'5050', rocker:'flat-flat', style:'noseride' };
+
+function pick(btn, cat) {
+  var els = document.querySelectorAll('#s-' + cat + ' .obtn');
+  for (var i = 0; i < els.length; i++) els[i].classList.remove('on');
+  btn.classList.add('on');
+  state[cat] = btn.getAttribute('data-v');
+  render();
+}
+
+var FINS = {
+  'classic-log|squaretail|5050|flat-flat': [
+    { name:'True Ames Heritage Nosrider', tag:'best', base:'約175mm（目安）', depth:'約230mm（目安）', rake:'低い（ピボット型）', flex:'スティッフ', size:'9.5〜10.5インチ', product:'True Ames Heritage Nosrider · 参考価格 約13,500円〜（$85〜）', reason:'幅広スクエアテール × フラット50/50の定番。広いベースでテールを強力に押さえ、ノーズへの重心移動を安定させる。ピボット型でドロップニーターンからのクロスステップが決まりやすい。' },
+    { name:'True Ames Tyler Warren Pivot', tag:'alt', base:'約165mm（目安）', depth:'約240mm（目安）', rake:'やや中程度', flex:'スティッフ', size:'9〜10インチ', product:'True Ames Tyler Warren Pivot · 参考価格 約11,900円〜（$75〜）', reason:'ピボット安定性を保ちながらわずかにレイクがあり、カービングも可能。ノーズライドとターンを両立したい場合の選択肢。' },
+    { name:'フレックス小型（8インチ以下）', tag:'ng', base:'-', depth:'-', rake:'-', flex:'-', size:'-', product:'', reason:'フラットロッカー × 大型スクエアテールにフレックス小型フィンはテールが抜けてノーズライド不可能。競技では致命的。' }
+  ],
+  'classic-log|squaretail|5050|moderate': [
+    { name:'True Ames Heritage Nosrider', tag:'best', base:'約175mm（目安）', depth:'約230mm（目安）', rake:'低い（ピボット型）', flex:'スティッフ', size:'9.5〜10.5インチ', product:'True Ames Heritage Nosrider · 参考価格 約13,500円〜（$85〜）', reason:'モデレートロッカー × スクエアテール × 50/50は典型的なクラシックログ。ピボット型大型フィンがバランスのベスト解。' },
+    { name:'FCS II Christenson Noserider', tag:'alt', base:'約168mm（目安）', depth:'約235mm（目安）', rake:'スウェプト寄り', flex:'スティッフ', size:'9〜9.5インチ', product:'FCS II Christenson Noserider · 参考価格 約15,600円〜（$98〜）', reason:'ワイドベース × レイクで安定したノーズライドと滑らかなターン移行を両立。FCSシステム採用ボードに最適。' },
+    { name:'カットアウェイ小型', tag:'ng', base:'-', depth:'-', rake:'-', flex:'-', size:'-', product:'', reason:'テールのリリースが速くなりすぎてクラシックログのグライドが損なわれる。' }
+  ],
+  'noserider|squaretail|5050|flat-flat': [
+    { name:'True Ames Heritage Nosrider（大型）', tag:'best', base:'約182mm（目安）', depth:'約245mm（目安）', rake:'最小（完全ピボット型）', flex:'スティッフ', size:'10〜11インチ', product:'True Ames Heritage Nosrider · 参考価格 約13,500円〜（$85〜）', reason:'ノーズライダーの幅広ボディ × 極太ノーズには最大面積のピボット型が必要。フィンがテールを押さえる反力でノーズが浮く構造。バック限界まで下げる。' },
+    { name:'FCS II Christenson Noserider 10インチ', tag:'alt', base:'約172mm（目安）', depth:'約238mm（目安）', rake:'スウェプト寄り', flex:'スティッフ', size:'9.5〜10インチ', product:'FCS II Christenson Noserider · 参考価格 約15,600円〜（$98〜）', reason:'ワイドベース × フルアウトラインでホールドと安定を高次元で両立。わずかなレイクがあるため純粋ピボットよりターン時の弧が自然。' },
+    { name:'Greenough 4A / フレックス系', tag:'ng', base:'-', depth:'-', rake:'-', flex:'-', size:'-', product:'', reason:'ノーズライダーにフレックス・スウェプト系はテールの押さえが不十分。' }
+  ],
+  'noserider|squaretail|combo|flat-flat': [
+    { name:'FCS II Christenson Noserider 10インチ', tag:'best', base:'約172mm（目安）', depth:'約238mm（目安）', rake:'中程度', flex:'スティッフ', size:'9.5〜10インチ', product:'FCS II Christenson Noserider · 参考価格 約15,600円〜（$98〜）', reason:'コンビレール（後部ハード）はホールドを部分的に担う。フィンは若干レイクがある方がターン〜ノーズライドのトランジションがスムーズ。' },
+    { name:'True Ames Heritage Nosrider', tag:'alt', base:'約175mm（目安）', depth:'約230mm（目安）', rake:'低い', flex:'スティッフ', size:'9.5〜10.5インチ', product:'True Ames Heritage Nosrider · 参考価格 約13,500円〜（$85〜）', reason:'純粋ノーズライド時間を最大化したい場合はこちらをバック配置で。' },
+    { name:'カットアウェイ系', tag:'ng', base:'-', depth:'-', rake:'-', flex:'-', size:'-', product:'', reason:'コンペレベルのノーズライドには面積が不足する。' }
+  ],
+  'performance-log|rounded-pin|6040|flat-flat': [
+    { name:'True Ames Greenough 4A', tag:'best', base:'約155mm（目安）', depth:'約230mm（目安）', rake:'モデレート〜スウェプト', flex:'ミディアム（先端フレックス）', size:'8.5〜9.5インチ', product:'True Ames Greenough 4A · 参考価格 約11,900円〜（$75〜）', reason:'パフォーマンスログの定番フィン。ラウンドピン × 60/40 × フラットの組み合わせに適している。ベースが広くドライブを生みながら、先端の適度なフレックスがターンのリリースを自然にする。40年以上使われてきたロングフィン。' },
+    { name:'FCS II Single Fin 8〜9インチ', tag:'alt', base:'165mm（8インチ・メーカー公表値）', depth:'203mm（8インチ・メーカー公表値）', rake:'スウェプト 32.7度（メーカー公表値）', flex:'スティッフ（PG）', size:'8〜9インチ', product:'FCS II Single Fin · 参考価格 約10,300円〜（$65〜）', reason:'FCSシステム採用ボードならこちら。メーカー公表の寸法データがあり信頼性が高い。ドライブと安定性が高くアップライトターンに向く。' },
+    { name:'ピボット大型（10インチ以上）', tag:'ng', base:'-', depth:'-', rake:'-', flex:'-', size:'-', product:'', reason:'パフォーマンスログに大型ピボットはターンが重くなりすぎる。60/40レールのシャープさを活かせない。' }
+  ],
+  'performance-log|pin|8020|flat-flat': [
+    { name:'True Ames Greenough 4A（中型）', tag:'best', base:'約148mm（目安）', depth:'約215mm（目安）', rake:'スウェプト', flex:'ミディアム', size:'8〜9インチ', product:'True Ames Greenough 4A · 参考価格 約11,900円〜（$75〜）', reason:'ピンテール × ダウンレール × フラットは最もホールドが強い組み合わせ。フィンはやや小さめにして抵抗を最小化し、スピードとターンの軽さを引き出す。' },
+    { name:'FCS II Single Fin 8インチ', tag:'alt', base:'165mm（メーカー公表値）', depth:'203mm（メーカー公表値）', rake:'32.7度（メーカー公表値）', flex:'スティッフ PG', size:'8インチ', product:'FCS II Single Fin · 参考価格 約10,300円〜（$65〜）', reason:'数値が明確で選びやすい。ダウンレール × ピンテールのホールドを上手く活かす。' },
+    { name:'ピボット系（最小レイク）', tag:'ng', base:'-', depth:'-', rake:'-', flex:'-', size:'-', product:'', reason:'ピンテール × ダウンレールに大型ピボットはオーバーホールド。ターン開始が重すぎる。' }
+  ],
+  'pig|squaretail|5050|flat-flat': [
+    { name:'中型ピボット / Dフィン', tag:'best', base:'約160mm（目安）', depth:'約228mm（目安）', rake:'やや低め（ピボット寄り）', flex:'ミディアム', size:'9〜10インチ', product:'True Ames Troy Elmore Pivot · 参考価格 約12,700円〜（$80〜）', reason:'ピグはテール幅が広くノーズが絞られた逆テーパー形状。重心がテール寄りになるのでフィンはテールホールドを強化するピボット寄りが合う。大きすぎるとターンが鈍くなるため中型を選ぶ。' },
+    { name:'Greenough 4A 9インチ', tag:'alt', base:'約155mm（目安）', depth:'約230mm（目安）', rake:'モデレート', flex:'ミディアム', size:'9インチ', product:'True Ames Greenough 4A · 参考価格 約11,900円〜（$75〜）', reason:'ターンの弧を自然にしたい場合はGreenough 4A。テールのルーズさとドライブのバランスが良い。' },
+    { name:'極小フレックス（8インチ以下）', tag:'ng', base:'-', depth:'-', rake:'-', flex:'-', size:'-', product:'', reason:'ピグのテール幅の広さをコントロールできない。テールが抜けすぎる。' }
+  ],
+  'pig|squaretail|6040|moderate': [
+    { name:'True Ames Greenough 4A 9〜9.5インチ', tag:'best', base:'約155mm（目安）', depth:'約230mm（目安）', rake:'モデレート〜スウェプト', flex:'ミディアム', size:'9〜9.5インチ', product:'True Ames Greenough 4A · 参考価格 約11,900円〜（$75〜）', reason:'60/40レール × モデレートロッカーはよりパフォーマンス寄りなピグ。Greenough 4Aの自然なターン弧と相性が良い。' },
+    { name:'中型ピボット', tag:'alt', base:'約160mm（目安）', depth:'約228mm（目安）', rake:'低め', flex:'ミディアム', size:'9〜10インチ', product:'True Ames Troy Elmore Pivot · 参考価格 約12,700円〜（$80〜）', reason:'ノーズライドを重視する場合はピボット型に戻す。' },
+    { name:'10.5インチ以上の超大型', tag:'ng', base:'-', depth:'-', rake:'-', flex:'-', size:'-', product:'', reason:'ピグのターンのテンポを壊す。' }
+  ],
+  'oval|rounded-pin|5050|moderate': [
+    { name:'True Ames Greenough 4A 8.5〜9インチ', tag:'best', base:'約148mm（目安）', depth:'約220mm（目安）', rake:'スウェプト', flex:'ミディアム', size:'8.5〜9インチ', product:'True Ames Greenough 4A · 参考価格 約11,900円〜（$75〜）', reason:'オーバル × ラウンドピン × 50/50はソフトでナチュラルなフィーリング。Greenough 4Aのバランスの良さがそのまま活きる。面積を抑えてテールのルーズさを残す。' },
+    { name:'FCS II Single Fin 8〜9インチ', tag:'alt', base:'165mm（8インチ・メーカー公表値）', depth:'203mm（8インチ・メーカー公表値）', rake:'32.7度（メーカー公表値）', flex:'スティッフ PG', size:'8〜9インチ', product:'FCS II Single Fin · 参考価格 約10,300円〜（$65〜）', reason:'FCSシステムのボードに。メーカー公表値があり信頼性が高い。' },
+    { name:'ピボット大型（10インチ以上）', tag:'ng', base:'-', depth:'-', rake:'-', flex:'-', size:'-', product:'', reason:'オーバルのナチュラルなフィーリングを損なう。ターンが重くなる。' }
+  ],
+  '_default': [
+    { name:'True Ames Greenough 4A', tag:'best', base:'約155mm（目安）', depth:'約230mm（目安）', rake:'モデレート〜スウェプト', flex:'ミディアム（先端フレックス）', size:'9インチ（ボード9フィートの場合の目安）', product:'True Ames Greenough 4A · 参考価格 約11,900円〜（$75〜）', reason:'迷ったらGreenough 4A。40年以上世界で最も使われてきたシングルフィンで、ほとんどのボード形状に対応する万能フィン。' },
+    { name:'FCS II Single Fin', tag:'alt', base:'165mm（8インチ・メーカー公表値）', depth:'203mm（8インチ・メーカー公表値）', rake:'32.7度（メーカー公表値）', flex:'スティッフ PG', size:'8〜9インチ', product:'FCS II Single Fin · 参考価格 約10,300円〜（$65〜）', reason:'FCSシステムで唯一メーカー公表の寸法データが確認できるフィン。サイズ選びの基準として使いやすい。' },
+    { name:'フレックス小型（8インチ以下）', tag:'ng', base:'-', depth:'-', rake:'-', flex:'-', size:'-', product:'', reason:'ロングボードシングルフィンに小型フレックスフィンは原則として向かない。' }
+  ]
+};
+
+var POS = {
+  noseride: { label:'バック（最後端に近い側）', pct:85, note:'ノーズライドはテールを強く押さえる必要がある。フィンをバック寄りにすることでフィンの支点が後退し、ノーズ側が浮きやすくなる。ハング5・ハング10への移行が安定する。' },
+  trim:     { label:'センター', pct:50, note:'トリム・フロー重視ならセンターポジションが最もバランスが良い。前後どちらにも極端に振らず、波のパワーを受けながら自然に走る設定。コンディションを見ながら前後1〜2cmで微調整する。' },
+  turn:     { label:'センター〜フォワード（やや前）', pct:35, note:'ターン重視なら少し前に出してテールをルーズにする。切り返しが軽くなりカットバックの入りが速くなる。動かしすぎるとテールが抜けるので1〜2cmの微調整が原則。' },
+  comp:     { label:'バック〜センター（波質による調整）', pct:62, note:'コンペではノーズライドセクションではバック寄り、カットバックセクションでは少し前に戻す。試合前日に波質に合わせて調整するのが基本的なアプローチ。' }
+};
+
+var BOARD_PATHS = {
+  'classic-log':     'M55,8 C75,8 96,70 98,160 C100,260 92,330 55,378 C18,330 10,260 12,160 C14,70 35,8 55,8Z',
+  'noserider':       'M55,8 C80,8 104,65 106,155 C108,255 98,330 55,378 C12,330 2,255 4,155 C6,65 30,8 55,8Z',
+  'performance-log': 'M55,8 C70,8 88,75 90,165 C92,258 84,330 55,378 C26,330 18,258 20,165 C22,75 40,8 55,8Z',
+  'pig':             'M55,10 C65,10 80,55 83,130 C86,220 90,320 100,372 L10,372 C20,320 23,220 27,130 C30,55 45,10 55,10Z',
+  'oval':            'M55,12 C74,12 94,80 95,170 C96,268 87,330 55,378 C23,330 14,268 15,170 C16,80 36,12 55,12Z'
+};
+
+var LABELS = {
+  outline: {'classic-log':'クラシックログ','noserider':'ノーズライダー','performance-log':'パフォーマンスログ','pig':'ピグ/セミピグ','oval':'オーバル/エッグ'},
+  tail:    {'squaretail':'スクエアテール','squash':'スカッシュ','rounded-pin':'ラウンドピン','pin':'ピンテール','moon':'ムーンテール','swallow':'スワロー/ツイン','diamond':'ダイヤモンド'},
+  rail:    {'5050':'50/50（ソフトレール）','6040':'60/40','8020':'80/20（ダウンレール）','combo':'前50/50・後60/40（コンビ）'},
+  rocker:  {'flat-flat':'フラット全体','flat-high':'ノーズフラット・テールハイ','high-flat':'ノーズハイ・テールフラット','moderate':'モデレート','high-high':'ノーズ・テール共にハイ'},
+  style:   {'noseride':'ノーズライド最優先','trim':'トリム・フロー重視','turn':'ターン・コントロール重視','comp':'コンペ（全技術）'}
+};
+
+function getFins() {
+  var keys = [
+    state.outline+'|'+state.tail+'|'+state.rail+'|'+state.rocker,
+    state.outline+'|'+state.tail+'|'+state.rail+'|moderate',
+    state.outline+'|'+state.tail+'|5050|flat-flat',
+    state.outline+'|squaretail|5050|flat-flat'
+  ];
+  for (var i = 0; i < keys.length; i++) {
+    if (FINS[keys[i]]) return FINS[keys[i]];
+  }
+  return FINS['_default'];
+}
+
+function render() {
+  var bp = document.getElementById('board-path');
+  if (bp) bp.setAttribute('d', BOARD_PATHS[state.outline] || BOARD_PATHS['classic-log']);
+
+  var finY = state.style === 'noseride' ? 355 : state.style === 'turn' ? 328 : 340;
+  var fm = document.getElementById('fin-marker');
+  if (fm) { var el = fm.querySelector('ellipse'); if (el) el.setAttribute('cy', finY); }
+  var fl = document.getElementById('fin-label');
+  if (fl) fl.setAttribute('y', finY + 4);
+
+  var rows = [
+    ['OUTLINE', LABELS.outline[state.outline] || state.outline],
+    ['TAIL',    LABELS.tail[state.tail]    || state.tail],
+    ['RAIL',    LABELS.rail[state.rail]    || state.rail],
+    ['ROCKER',  LABELS.rocker[state.rocker]|| state.rocker],
+    ['STYLE',   LABELS.style[state.style]  || state.style]
+  ];
+  var sr = document.getElementById('spec-rows');
+  if (sr) {
+    sr.innerHTML = rows.map(function(r) {
+      return '<div class="brow"><span class="bn">'+r[0]+'</span><span class="bv">'+r[1]+'</span></div>';
+    }).join('');
+  }
+
+  var fins = getFins();
+  var badgeMap = { best:'<span class="badge b-best">BEST</span>', alt:'<span class="badge b-alt">ALT</span>', ng:'<span class="badge b-ng">AVOID</span>' };
+  var html = '<div class="ft">RECOMMENDED FIN</div>';
+  for (var i = 0; i < fins.length; i++) {
+    var f = fins[i];
+    var hasDims = f.base !== '-';
+    var dimsHtml = '';
+    if (hasDims) {
+      dimsHtml = '<div class="fin-row"><div class="dims">' +
+        '<div class="dc"><span class="dk">BASE</span><span class="dv">'+f.base+'</span></div>' +
+        '<div class="dc"><span class="dk">DEPTH</span><span class="dv">'+f.depth+'</span></div>' +
+        '<div class="dc"><span class="dk">RAKE</span><span class="dv">'+f.rake+'</span></div>' +
+        '<div class="dc"><span class="dk">FLEX</span><span class="dv">'+f.flex+'</span></div>' +
+        '<div class="dc"><span class="dk">SIZE</span><span class="dv">'+f.size+'</span></div>' +
+        '</div></div>';
+    }
+    html += '<div class="fc ' + f.tag + '">' +
+      '<div class="fc-top"><div class="fc-name">' + f.name + '</div>' + (badgeMap[f.tag]||'') + '</div>' +
+      dimsHtml +
+      '<div class="fc-reason">' + f.reason + '</div>' +
+      (f.product ? '<div class="prod">📌 参考商品: <span>' + f.product + '</span></div>' : '') +
+      '</div>';
+  }
+  var fr = document.getElementById('fin-results');
+  if (fr) fr.innerHTML = html;
+
+  var p = POS[state.style] || POS['trim'];
+  var pct = p.pct;
+  var posDir = pct < 40 ? 'フォワード寄り ←' : pct > 70 ? '→ バック寄り' : '─ センター ─';
+  var pn = document.getElementById('pos-note');
+  if (pn) {
+    pn.innerHTML = '<strong>📍 推奨フィン位置：' + p.label + '</strong><br><br>' + p.note +
+      '<div class="pos-labels"><span>フォワード（前端）</span><span>バック（後端）</span></div>' +
+      '<div class="pos-bar" style="position:relative;height:6px;background:rgba(255,255,255,.08);border-radius:3px;">' +
+      '<div style="position:absolute;top:50%;transform:translateY(-50%);left:calc('+pct+'% - 6px);width:13px;height:13px;border-radius:50%;background:var(--cyan);border:2px solid var(--bg);box-shadow:0 0 7px var(--cyan);"></div>' +
+      '</div>' +
+      '<div class="pos-cent">' + posDir + '</div>';
+  }
+}
+
+render();
+</script>
+</body>
+</html>

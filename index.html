@@ -211,6 +211,20 @@ footer{margin-top:50px;padding-top:18px;border-top:1px solid var(--border);font-
 .fp-note{font-size:11px;color:var(--text2);line-height:1.6;margin-bottom:3px;}
 .fp-price{font-size:10px;color:var(--gold);font-family:'Space Mono',monospace;}
 
+/* 微調整セクション */
+.fin-tuning{margin-top:12px;border-top:1px solid var(--border);padding-top:10px;}
+.tuning-toggle{
+  width:100%;background:transparent;border:none;cursor:pointer;
+  text-align:left;font-family:'Space Mono',monospace;font-size:10px;
+  letter-spacing:.1em;color:var(--cyan2);padding:4px 0;
+  transition:color .18s;
+}
+.tuning-toggle:hover{color:var(--cyan);}
+.tuning-body{margin-top:10px;display:flex;flex-direction:column;gap:8px;}
+.tuning-item{background:rgba(0,229,212,.04);border:1px solid rgba(0,229,212,.1);border-radius:3px;padding:10px 12px;}
+.tuning-label{font-size:11px;font-weight:700;color:#fff;margin-bottom:4px;}
+.tuning-note{font-size:11px;color:var(--text2);line-height:1.7;font-weight:300;}
+
 /* ─── 体重補正 ─── */
 .weight-section{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:18px;margin-bottom:22px;}
 .weight-section .ws-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.15em;color:var(--cyan);text-transform:uppercase;margin-bottom:12px;}
@@ -634,10 +648,18 @@ var FIN_TYPES = {
     tag: 'best',
     desc: 'レイク（後退角）が最も小さく、アップライトな形状。テールを強力に固定しノーズライドに特化。ハング5・ハング10の安定に直結する。ターンの機動性よりノーズ上の時間を最大化する設計。',
     dims: { base:'170〜185mm（目安）', depth:'225〜250mm（目安）', rake:'最小（アップライト）', flex:'スティッフ', size:'9.5〜11インチ' },
+    tuning: {
+      title: 'この種類の中での選び方・微調整',
+      items: [
+        { label:'幅広・面積大', note:'テール固定力が最強。ノーズライド時間が最も長くなる。ターンは重くなる。まずここから試す。（例：True Ames Heritage）' },
+        { label:'細め・面積やや小', note:'ノーズライドの安定は少し落ちるが、ターンへの移行がスムーズ。両立したい場合に。（例：Tyler Warren Pivot）' },
+        { label:'調整の方向性', note:'「ターンが重い」→ 細めのピボットへ、またはフィン位置をフォワードへ。「ノーズライドが不安定」→ 幅広へ、またはフィン位置をバックへ。' }
+      ]
+    },
     products: [
       { name:'True Ames Heritage Nosrider', brand:'True Ames', note:'ノーズライド特化の定番。面積最大・最もアップライト。', price:'参考価格 約13,500円〜（$85〜）' },
       { name:'Rainbow Fin Co. Noseglider', brand:'Rainbow Fin Co.', note:'ハンドクラフトのピボット型。カラー豊富でノーズライド志向に最適。', price:'参考価格 約11,100円〜（$70〜）' },
-      { name:'FCS II Christenson Noserider', brand:'FCS II', note:'FCSシステム対応。メーカー公表寸法あり。わずかなレイクでターン移行も自然。', price:'参考価格 約15,600円〜（$98〜）' }
+      { name:'FCS II Christenson Noserider', brand:'FCS II', note:'FCSシステム対応。わずかなレイクでターン移行も自然。', price:'参考価格 約15,600円〜（$98〜）' }
     ]
   },
 
@@ -649,6 +671,14 @@ var FIN_TYPES = {
     tag: 'best',
     desc: '斧の刃に似た形状。上部が広く下部が細い独特のシルエット。ピボットとDフィンの中間的特性で、ノーズライドの安定とトリムのしやすさを両立。ログでノーズライドもターンもしたい場合の最適解。',
     dims: { base:'165〜180mm（目安）', depth:'220〜245mm（目安）', rake:'低め〜中程度', flex:'スティッフ〜ミディアム', size:'9〜10.5インチ' },
+    tuning: {
+      title: 'この種類の中での選び方・微調整',
+      items: [
+        { label:'ピボット寄り（上部広め）', note:'ノーズライドの安定を重視。テール固定が強く長いノーズ時間が取れる。（例：Tyler Warren Pivot）' },
+        { label:'Dフィン寄り（バランス型）', note:'ノーズライドとターンをより均等に。切り返しが軽くなる。（例：Jesse Guglielmana）' },
+        { label:'調整の方向性', note:'「もっとノーズライドを安定させたい」→ ピボット寄りへ。「ターンをもっと軽くしたい」→ Dフィン寄りへ、またはレイクフィンへ移行を検討。' }
+      ]
+    },
     products: [
       { name:'True Ames Tyler Warren Pivot', brand:'True Ames', note:'ピボット寄りのハチェット型。ノーズライドと適度なターンを両立。', price:'参考価格 約11,900円〜（$75〜）' },
       { name:'Captain Fin Co. Jesse Guglielmana', brand:'Captain Fin Co.', note:'ハチェット形状のシグネチャーモデル。スムーズなターン弧。', price:'参考価格 約11,900円〜（$75〜）' }
@@ -663,6 +693,14 @@ var FIN_TYPES = {
     tag: 'best',
     desc: 'アルファベットのDに似た形状。テール側がほぼ直線で安定性とスムーズなターンを両立。クラシックログの定番フィン形状。ノーズライドとカービングをバランスよく楽しめる。',
     dims: { base:'160〜175mm（目安）', depth:'215〜235mm（目安）', rake:'低め', flex:'スティッフ', size:'9〜10.5インチ' },
+    tuning: {
+      title: 'この種類の中での選び方・微調整',
+      items: [
+        { label:'大きめ（面積大）', note:'安定性とドライブが増す。ノーズライド寄りの動きに。波のパワーがある日向き。' },
+        { label:'小さめ（面積小）', note:'ターンが軽くなりリリースが速くなる。小波や柔らかい波向き。' },
+        { label:'調整の方向性', note:'「動きが重い」→ 小さめへ、またはフィン位置をフォワードへ。「安定感が欲しい」→ 大きめへ、またはフィン位置をバックへ。行き詰まったらハチェットかレイクへの移行も検討。' }
+      ]
+    },
     products: [
       { name:'True Ames Troy Elmore Pivot', brand:'True Ames', note:'D字型の安定感とピボット的な動きを両立。', price:'参考価格 約12,700円〜（$80〜）' },
       { name:'Rainbow Fin Co. Pivot', brand:'Rainbow Fin Co.', note:'Dフィン寄りのピボット型。クラシックログに幅広く対応。', price:'参考価格 約11,100円〜（$70〜）' }
@@ -675,8 +713,16 @@ var FIN_TYPES = {
     nameEn: 'Rake / Swept Fin',
     searchKey: 'ロングボード シングルフィン レイク',
     tag: 'best',
-    desc: 'レイク（後退角）が大きく後方に湾曲した形状。先端がベースの後端より大きく後退する。ターンの弧が自然でカービングに優れる。パフォーマンスログやピグに特に相性が良い。ノーズライドよりターンとスピードを重視する場合の選択。',
+    desc: 'レイク（後退角）が大きく後方に湾曲した形状。ターンの弧が自然でカービングに優れる。パフォーマンスログやピグに特に相性が良い。ノーズライドよりターンとスピードを重視する場合の選択。',
     dims: { base:'148〜165mm（目安）', depth:'210〜235mm（目安）', rake:'中〜大（スウェプト）', flex:'ミディアム（先端フレックス）', size:'8〜9.5インチ' },
+    tuning: {
+      title: 'この種類の中での選び方・微調整',
+      items: [
+        { label:'浅いレイク（Greenough 4A等）', note:'ドライブが強くスピードが出やすい。ターンの弧がやや大きくなる。波のサイズが上がるほど安定する。まずここから試す。' },
+        { label:'深いレイク（CF Raked等）', note:'ターンの切り返しが速くなる。ドライブはやや落ちる。小波や柔らかい波でより板が動かしやすい。' },
+        { label:'調整の方向性', note:'「スピードが出ない」→ 浅いレイクへ、またはフィン位置をバックへ。「ターンを軽くしたい」→ 深いレイクへ、またはフィン位置をフォワードへ。フレックス素材に変えるのも有効。' }
+      ]
+    },
     products: [
       { name:'True Ames Greenough 4A', brand:'True Ames', note:'世界で最も使われるシングルフィン。先端フレックスでターンのリリースが自然。40年以上の実績。', price:'参考価格 約11,900円〜（$75〜）' },
       { name:'Captain Fin Co. CF Raked', brand:'Captain Fin Co.', note:'インハウス設計のスウェプト型。オールラウンドかつアドバンスドな動きに対応。', price:'参考価格 約10,300円〜（$65〜）' },
@@ -692,6 +738,14 @@ var FIN_TYPES = {
     tag: 'alt',
     desc: '先端が大きくしなる素材（グラスやVolan）を使用。しなりがエネルギーを蓄えてターン後の推進力になる。ヴィンテージ的なフィーリングが特徴。柔らかい波や小波でのトリムに向く。',
     dims: { base:'145〜160mm（目安）', depth:'210〜225mm（目安）', rake:'中程度', flex:'フレックス（先端大きくしなる）', size:'8.5〜9.5インチ' },
+    tuning: {
+      title: 'この種類の中での選び方・微調整',
+      items: [
+        { label:'しなりが強い（Volan等）', note:'よりヴィンテージ的なフィーリング。エネルギーの蓄えと放出が大きい。波のパワーが必要。（例：Alex Knost Sunshine）' },
+        { label:'しなりが中程度', note:'フレックスのレスポンスを活かしながら安定感も確保。オールラウンドに使いやすい。（例：Rainbow Flex Fin）' },
+        { label:'調整の方向性', note:'「フィーリングが軽すぎる」→ しなりが強いモデルへ、または少し大きめのサイズへ。「動きが重い」→ 小さめのサイズへ、またはレイクフィンへ移行を検討。' }
+      ]
+    },
     products: [
       { name:'Rainbow Fin Co. Flex Fin', brand:'Rainbow Fin Co.', note:'オールラウンドフレックス型。ヴィンテージ的なしなりでスピードとレスポンスを両立。', price:'参考価格 約11,100円〜（$70〜）' },
       { name:'Captain Fin Co. Alex Knost Sunshine（Volan）', brand:'Captain Fin Co.', note:'Volan100%グラス。スプリングのあるフレックスでクラシックなフィーリング。', price:'参考価格 約12,700円〜（$80〜）' }
@@ -706,6 +760,7 @@ var FIN_TYPES = {
     tag: 'ng',
     desc: 'ロングボードシングルフィンに小型フレックスフィンは原則として向かない。テールホールドが不足しノーズライドが不可能になる。ショートボード用フィンを流用するケースで起きやすい。',
     dims: { base:'-', depth:'-', rake:'-', flex:'-', size:'-' },
+    tuning: null,
     products: []
   }
 };
@@ -881,6 +936,25 @@ function buildFinTypeCard(typeId, tag, adjNote, hidden) {
     productsHtml += '</div>';
   }
 
+  /* 微調整セクション（折りたたみ） */
+  var tuningHtml = '';
+  if (ft.tuning) {
+    var tid = 'tuning-' + typeId + '-' + Math.random().toString(36).substr(2,5);
+    tuningHtml = '<div class="fin-tuning">' +
+      '<button class="tuning-toggle" onclick="toggleTuning(\'' + tid + '\')" type="button">' +
+        '▶ ' + ft.tuning.title +
+      '</button>' +
+      '<div class="tuning-body" id="' + tid + '" style="display:none;">';
+    for (var j = 0; j < ft.tuning.items.length; j++) {
+      var item = ft.tuning.items[j];
+      tuningHtml += '<div class="tuning-item">' +
+        '<div class="tuning-label">'+item.label+'</div>' +
+        '<div class="tuning-note">'+item.note+'</div>' +
+        '</div>';
+    }
+    tuningHtml += '</div></div>';
+  }
+
   /* ショップリンク */
   var shopHtml = tagClass !== 'ng' ? buildShopLinks(ft.searchKey) : '';
 
@@ -895,6 +969,7 @@ function buildFinTypeCard(typeId, tag, adjNote, hidden) {
     '<div class="fc-reason">'+ft.desc+'</div>' +
     dimsHtml +
     productsHtml +
+    tuningHtml +
     shopHtml +
     '</div>';
 }
@@ -998,6 +1073,18 @@ function render() {
 
   if (compareMode) renderCompare();
   updateWeightNote();
+}
+
+/* ═══════════════════════════════════════════
+   TUNING TOGGLE
+═══════════════════════════════════════════ */
+function toggleTuning(id) {
+  var body = document.getElementById(id);
+  var btn = body ? body.previousElementSibling : null;
+  if (!body) return;
+  var isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  if (btn) btn.textContent = (isOpen ? '▶ ' : '▼ ') + btn.textContent.substring(2);
 }
 
 /* ═══════════════════════════════════════════

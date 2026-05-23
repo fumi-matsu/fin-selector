@@ -188,6 +188,19 @@ body::before{
 .chip{display:inline-block;padding:2px 5px;border-radius:2px;font-family:'Space Mono',monospace;font-size:9px;margin:1px;}
 .cg{background:rgba(0,229,212,.13);color:var(--cyan);}.co{background:rgba(255,112,64,.13);color:var(--orange);}.cr{background:rgba(230,57,70,.13);color:var(--red);}
 footer{margin-top:50px;padding-top:18px;border-top:1px solid var(--border);font-family:'Space Mono',monospace;font-size:9px;color:var(--text2);letter-spacing:.08em;opacity:.4;text-align:center;line-height:1.8;}
+
+.related-notes{margin-top:48px;padding-top:32px;border-top:1px solid var(--border);}
+.rn-title{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--cyan);text-transform:uppercase;margin-bottom:16px;}
+.rn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:12px;}
+.rn-card{
+  display:block;border:1px solid var(--border);border-radius:4px;padding:16px;
+  text-decoration:none;transition:all .2s;background:var(--bg2);
+}
+.rn-card:hover{border-color:var(--cyan);background:rgba(0,229,212,.05);transform:translateY(-2px);}
+.rn-soon{border-style:dashed;opacity:.5;cursor:default;}
+.rn-soon:hover{transform:none;border-color:var(--border);background:var(--bg2);}
+.rn-tag{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.12em;color:var(--cyan2);text-transform:uppercase;margin-bottom:8px;}
+.rn-name{font-size:12px;color:var(--text);line-height:1.6;font-weight:300;}
 </style>
 </head>
 <body>
@@ -414,6 +427,28 @@ footer{margin-top:50px;padding-top:18px;border-top:1px solid var(--border);font-
   </div>
 </div><!-- /.matrix -->
 
+<div class="related-notes">
+  <div class="rn-title">📝 関連NOTE記事</div>
+  <div class="rn-grid">
+    <a class="rn-card" href="https://note.com/longboarder/n/n2a4cd516a7ed" target="_blank" rel="noopener">
+      <div class="rn-tag">FIN × BOARD</div>
+      <div class="rn-name">フィンを選ぶ前に、板を読む<br>── レール・テール・ロッカーからフィンを逆算する技術</div>
+    </a>
+    <a class="rn-card" href="https://note.com/longboarder/n/n1bc4af95dad3" target="_blank" rel="noopener">
+      <div class="rn-tag">BOARD SELECTION</div>
+      <div class="rn-name">板を「選び抜く」へ<br>── シングルフィンロングボードの特性と選び方</div>
+    </a>
+    <a class="rn-card" href="https://note.com/longboarder/n/n11c13850095f" target="_blank" rel="noopener">
+      <div class="rn-tag">PHYSICS × STRATEGY</div>
+      <div class="rn-name">シングルフィンに乗る理由は、物理にあった。<br>── 流体力学・競技戦略・スタイルの三角形で読み解く</div>
+    </a>
+    <div class="rn-card rn-soon">
+      <div class="rn-tag">COMING SOON</div>
+      <div class="rn-name">試合当日のフィン位置調整方法<br>── 波質・コンディション別の微調整ガイド</div>
+    </div>
+  </div>
+</div>
+
 <footer>
   LONGBOARD FIN SELECTOR — BOARD x FIN PATTERN GUIDE<br>
   寸法・価格はすべて参考目安です。最終判断はシェイパーまたは信頼できるサーフショップに相談してください。<br>
@@ -436,23 +471,23 @@ function pick(btn, cat) {
 var FINS = {
   /* ─── CLASSIC LOG ─────────────────────────────────────── */
   'classic-log|squaretail|5050|flat-flat': [
-    { name:'True Ames Heritage Nosrider', brand:'True Ames', tag:'best',
+    { name:'True Ames Heritage Nosrider', brand:'True Ames', tag:'best', searchKey:'ロングボード シングルフィン ピボット 10インチ',
       base:'約175mm（目安）', depth:'約230mm（目安）', rake:'低い（ピボット型）', flex:'スティッフ', size:'9.5〜10.5インチ',
       product:'True Ames Heritage Nosrider · 参考価格 約13,500円〜（$85〜）',
       reason:'幅広スクエアテール × フラット50/50の定番。広いベースでテールを強力に押さえ、ノーズへの重心移動を安定させる。ピボット型でドロップニーターンからのクロスステップが決まりやすい。' },
-    { name:'Rainbow Fin Co. Pivot', brand:'Rainbow Fin Co.', tag:'best',
+    { name:'Rainbow Fin Co. Pivot', brand:'Rainbow Fin Co.', tag:'best', searchKey:'ロングボード シングルフィン ピボット 10インチ',
       base:'約170mm（目安）', depth:'約232mm（目安）', rake:'低い（ピボット型）', flex:'スティッフ', size:'9〜10.5インチ',
       product:'Rainbow Fin Co. Pivot · 参考価格 約11,100円〜（$70〜）',
       reason:'57年以上の歴史を持つハンドクラフトブランドの定番ピボット。カラーバリエーションが豊富でノーズライド志向に特に向く。クラシックログの50/50レールとの相性が良い。' },
-    { name:'Captain Fin Co. Jesse Guglielmana', brand:'Captain Fin Co.', tag:'alt',
+    { name:'Captain Fin Co. Jesse Guglielmana', brand:'Captain Fin Co.', tag:'alt', searchKey:'ロングボード シングルフィン ピボット 10インチ',
       base:'約168mm（目安）', depth:'約235mm（目安）', rake:'低い（ピボット型）', flex:'スティッフ', size:'9.5〜10インチ',
       product:'Captain Fin Co. Jesse Guglielmana · 参考価格 約11,900円〜（$75〜）',
       reason:'スムーズなアーキングターンとノーズライドを両立するシグネチャーピボット。クラシックなグラス仕上げで見た目もクリーン。' },
-    { name:'True Ames Tyler Warren Pivot', brand:'True Ames', tag:'alt',
+    { name:'True Ames Tyler Warren Pivot', brand:'True Ames', tag:'alt', searchKey:'ロングボード シングルフィン ピボット 9インチ',
       base:'約165mm（目安）', depth:'約240mm（目安）', rake:'やや中程度', flex:'スティッフ', size:'9〜10インチ',
       product:'True Ames Tyler Warren Pivot · 参考価格 約11,900円〜（$75〜）',
       reason:'ピボット安定性を保ちながらわずかにレイクがあり、カービングも可能。ノーズライドとターンを両立したい場合の選択肢。' },
-    { name:'Futures Single Fin（ノーズライドライン）', brand:'Futures Fins', tag:'alt',
+    { name:'Futures Single Fin（ノーズライドライン）', brand:'Futures Fins', tag:'alt', searchKey:'ロングボード シングルフィン ノーズライダー 9インチ',
       base:'約168mm（目安）', depth:'約228mm（目安）', rake:'低め〜中程度', flex:'ミディアム', size:'9〜10インチ',
       product:'Futures Single Fin · 参考価格 約11,100円〜（$70〜）',
       reason:'Futuresが展開するシングルフィンライン。ノーズライドとトリムマスターを意識した設計。Futures対応ボードに最適。フィンボックスがFutures専用のため購入前に確認が必要。' },
@@ -465,11 +500,11 @@ var FINS = {
       base:'約175mm（目安）', depth:'約230mm（目安）', rake:'低い（ピボット型）', flex:'スティッフ', size:'9.5〜10.5インチ',
       product:'True Ames Heritage Nosrider · 参考価格 約13,500円〜（$85〜）',
       reason:'モデレートロッカー × スクエアテール × 50/50は典型的なクラシックログ。ピボット型大型フィンがバランスのベスト解。' },
-    { name:'Rainbow Fin Co. Noseglider', brand:'Rainbow Fin Co.', tag:'best',
+    { name:'Rainbow Fin Co. Noseglider', brand:'Rainbow Fin Co.', tag:'best', searchKey:'ロングボード シングルフィン ノーズライダー ピボット 10インチ',
       base:'約172mm（目安）', depth:'約228mm（目安）', rake:'低い（ピボット型）', flex:'スティッフ', size:'9.5〜10インチ',
       product:'Rainbow Fin Co. Noseglider · 参考価格 約11,100円〜（$70〜）',
       reason:'ノーズライド特化設計のピボット型。名前通りノーズ時間を最大化する。モデレートロッカーのクラシックログとの相性が良い。' },
-    { name:'FCS II Christenson Noserider', brand:'FCS II', tag:'alt',
+    { name:'FCS II Christenson Noserider', brand:'FCS II', tag:'alt', searchKey:'FCS シングルフィン ノーズライダー',
       base:'約168mm（目安）', depth:'約235mm（目安）', rake:'スウェプト寄り', flex:'スティッフ', size:'9〜9.5インチ',
       product:'FCS II Christenson Noserider · 参考価格 約15,600円〜（$98〜）',
       reason:'ワイドベース × レイクで安定したノーズライドと滑らかなターン移行を両立。FCSシステム採用ボードに最適。' },
@@ -479,15 +514,15 @@ var FINS = {
   ],
   /* ─── NOSERIDER ───────────────────────────────────────── */
   'noserider|squaretail|5050|flat-flat': [
-    { name:'True Ames Heritage Nosrider（大型）', brand:'True Ames', tag:'best',
+    { name:'True Ames Heritage Nosrider（大型）', brand:'True Ames', tag:'best', searchKey:'ロングボード シングルフィン ピボット 11インチ',
       base:'約182mm（目安）', depth:'約245mm（目安）', rake:'最小（完全ピボット型）', flex:'スティッフ', size:'10〜11インチ',
       product:'True Ames Heritage Nosrider · 参考価格 約13,500円〜（$85〜）',
       reason:'ノーズライダーの幅広ボディ × 極太ノーズには最大面積のピボット型が必要。フィンがテールを押さえる反力でノーズが浮く構造。バック限界まで下げる。' },
-    { name:'Rainbow Fin Co. Noseglider（最大型）', brand:'Rainbow Fin Co.', tag:'best',
+    { name:'Rainbow Fin Co. Noseglider（最大型）', brand:'Rainbow Fin Co.', tag:'best', searchKey:'ロングボード シングルフィン ノーズライダー 11インチ',
       base:'約178mm（目安）', depth:'約240mm（目安）', rake:'最小（ピボット型）', flex:'スティッフ', size:'10〜11インチ',
       product:'Rainbow Fin Co. Noseglider · 参考価格 約11,100円〜（$70〜）',
       reason:'ノーズライダー特化のピボット最大型。True Amesの代替として十分機能し、ハンドクラフトの質感も魅力。フラット50/50との組み合わせに適している。' },
-    { name:'FCS II Christenson Noserider 10インチ', brand:'FCS II', tag:'alt',
+    { name:'FCS II Christenson Noserider 10インチ', brand:'FCS II', tag:'alt', searchKey:'FCS シングルフィン ノーズライダー 10インチ',
       base:'約172mm（目安）', depth:'約238mm（目安）', rake:'スウェプト寄り', flex:'スティッフ', size:'9.5〜10インチ',
       product:'FCS II Christenson Noserider · 参考価格 約15,600円〜（$98〜）',
       reason:'わずかなレイクがあるため純粋ピボットよりターン時の弧が自然。ノーズライドとターン移行を両立したい場合に。' },
@@ -496,7 +531,7 @@ var FINS = {
       reason:'ノーズライダーにフレックス・スウェプト系はテールの押さえが不十分。' }
   ],
   'noserider|squaretail|combo|flat-flat': [
-    { name:'FCS II Christenson Noserider 10インチ', brand:'FCS II', tag:'best',
+    { name:'FCS II Christenson Noserider 10インチ', brand:'FCS II', tag:'best', searchKey:'FCS シングルフィン ノーズライダー 10インチ',
       base:'約172mm（目安）', depth:'約238mm（目安）', rake:'中程度', flex:'スティッフ', size:'9.5〜10インチ',
       product:'FCS II Christenson Noserider · 参考価格 約15,600円〜（$98〜）',
       reason:'コンビレール（後部ハード）はホールドを部分的に担う。フィンは若干レイクがある方がターン〜ノーズライドのトランジションがスムーズ。' },
@@ -510,15 +545,15 @@ var FINS = {
   ],
   /* ─── PERFORMANCE LOG ─────────────────────────────────── */
   'performance-log|rounded-pin|6040|flat-flat': [
-    { name:'True Ames Greenough 4A', brand:'True Ames', tag:'best',
+    { name:'True Ames Greenough 4A', brand:'True Ames', tag:'best', searchKey:'ロングボード シングルフィン レイク 9インチ',
       base:'約155mm（目安）', depth:'約230mm（目安）', rake:'モデレート〜スウェプト', flex:'ミディアム（先端フレックス）', size:'8.5〜9.5インチ',
       product:'True Ames Greenough 4A · 参考価格 約11,900円〜（$75〜）',
       reason:'パフォーマンスログの王道フィン。ベースが広くドライブを生みながら、先端の適度なフレックスがターンのリリースを自然にする。40年以上使われてきた実績がある。' },
-    { name:'Captain Fin Co. CF Raked 9.5〜10インチ', brand:'Captain Fin Co.', tag:'best',
+    { name:'Captain Fin Co. CF Raked 9.5〜10インチ', brand:'Captain Fin Co.', tag:'best', searchKey:'ロングボード シングルフィン レイク 10インチ',
       base:'約158mm（目安）', depth:'約228mm（目安）', rake:'レイク（スウェプト）', flex:'ミディアム', size:'9.5〜10インチ',
       product:'Captain Fin Co. CF Raked · 参考価格 約10,300円〜（$65〜）',
       reason:'オールラウンドかつアドバンスドな動きに対応するインハウス設計のラークドフィン。60/40レールのパフォーマンスログとのバランスが良い。' },
-    { name:'Rainbow Fin Co. LongRake', brand:'Rainbow Fin Co.', tag:'alt',
+    { name:'Rainbow Fin Co. LongRake', brand:'Rainbow Fin Co.', tag:'alt', searchKey:'ロングボード シングルフィン レイク 9インチ',
       base:'約160mm（目安）', depth:'約232mm（目安）', rake:'スウェプト（レイク大きめ）', flex:'ミディアム', size:'8.5〜9.5インチ',
       product:'Rainbow Fin Co. LongRake · 参考価格 約11,100円〜（$70〜）',
       reason:'アップデートされたロングレイクテンプレート。ベースを広げてドライブを強化しつつ薄い先端でレスポンシブな動きを実現。ターン重視設定に向く。' },
@@ -531,15 +566,15 @@ var FINS = {
       reason:'パフォーマンスログに大型ピボットはターンが重くなりすぎる。60/40レールのシャープさを活かせない。' }
   ],
   'performance-log|pin|8020|flat-flat': [
-    { name:'True Ames Greenough 4A（中型）', brand:'True Ames', tag:'best',
+    { name:'True Ames Greenough 4A（中型）', brand:'True Ames', tag:'best', searchKey:'ロングボード シングルフィン レイク 8インチ',
       base:'約148mm（目安）', depth:'約215mm（目安）', rake:'スウェプト', flex:'ミディアム', size:'8〜9インチ',
       product:'True Ames Greenough 4A · 参考価格 約11,900円〜（$75〜）',
       reason:'ピンテール × ダウンレール × フラットは最もホールドが強い組み合わせ。フィンはやや小さめにして抵抗を最小化し、スピードとターンの軽さを引き出す。' },
-    { name:'Captain Fin Co. Alex Knost Sunshine（Volan）', brand:'Captain Fin Co.', tag:'alt',
+    { name:'Captain Fin Co. Alex Knost Sunshine（Volan）', brand:'Captain Fin Co.', tag:'alt', searchKey:'ロングボード シングルフィン レイク 9インチ',
       base:'約152mm（目安）', depth:'約220mm（目安）', rake:'スウェプト（レイク寄り）', flex:'ミディアム（Volanフレックス）', size:'8.5〜9.5インチ',
       product:'Captain Fin Co. Alex Knost Sunshine · 参考価格 約12,700円〜（$80〜）',
       reason:'Volan100%グラスのスプリングのあるフレックスと薄い先端。ダウンレール × ピンテールのホールドを活かしつつ動きを軽くする。' },
-    { name:'FCS II Single Fin 8インチ', brand:'FCS II', tag:'alt',
+    { name:'FCS II Single Fin 8インチ', brand:'FCS II', tag:'alt', searchKey:'FCS シングルフィン 8インチ',
       base:'165mm（メーカー公表値）', depth:'203mm（メーカー公表値）', rake:'32.7度（メーカー公表値）', flex:'スティッフ PG', size:'8インチ',
       product:'FCS II Single Fin · 参考価格 約10,300円〜（$65〜）',
       reason:'数値が明確で選びやすい。ダウンレール × ピンテールのホールドを上手く活かす。' },
@@ -549,15 +584,15 @@ var FINS = {
   ],
   /* ─── PIG ────────────────────────────────────────────── */
   'pig|squaretail|5050|flat-flat': [
-    { name:'Rainbow Fin Co. Pivot（中型）', brand:'Rainbow Fin Co.', tag:'best',
+    { name:'Rainbow Fin Co. Pivot（中型）', brand:'Rainbow Fin Co.', tag:'best', searchKey:'ロングボード シングルフィン ピボット 9インチ',
       base:'約162mm（目安）', depth:'約230mm（目安）', rake:'低い（ピボット型）', flex:'ミディアム', size:'9〜10インチ',
       product:'Rainbow Fin Co. Pivot · 参考価格 約11,100円〜（$70〜）',
       reason:'ピグはテール幅が広く重心がテール寄り。ピボット型でテールホールドを強化しつつ、Rainbow Fin Coのミディアムフレックスがピグの独特なターンフィーリングと合う。' },
-    { name:'True Ames Troy Elmore Pivot', brand:'True Ames', tag:'alt',
+    { name:'True Ames Troy Elmore Pivot', brand:'True Ames', tag:'alt', searchKey:'ロングボード シングルフィン ピボット 9インチ',
       base:'約160mm（目安）', depth:'約228mm（目安）', rake:'やや低め（ピボット寄り）', flex:'ミディアム', size:'9〜10インチ',
       product:'True Ames Troy Elmore Pivot · 参考価格 約12,700円〜（$80〜）',
       reason:'程よいレイクでターンの弧も自然。ピグのスローなターンリズムに合う。' },
-    { name:'True Ames Greenough 4A 9インチ', brand:'True Ames', tag:'alt',
+    { name:'True Ames Greenough 4A 9インチ', brand:'True Ames', tag:'alt', searchKey:'ロングボード シングルフィン レイク 9インチ',
       base:'約155mm（目安）', depth:'約230mm（目安）', rake:'モデレート', flex:'ミディアム', size:'9インチ',
       product:'True Ames Greenough 4A · 参考価格 約11,900円〜（$75〜）',
       reason:'ターンの弧をより自然にしたい場合。テールのルーズさとドライブのバランスが良い。' },
@@ -566,11 +601,11 @@ var FINS = {
       reason:'ピグのテール幅の広さをコントロールできない。テールが抜けすぎる。' }
   ],
   'pig|squaretail|6040|moderate': [
-    { name:'True Ames Greenough 4A 9〜9.5インチ', brand:'True Ames', tag:'best',
+    { name:'True Ames Greenough 4A 9〜9.5インチ', brand:'True Ames', tag:'best', searchKey:'ロングボード シングルフィン レイク 9インチ',
       base:'約155mm（目安）', depth:'約230mm（目安）', rake:'モデレート〜スウェプト', flex:'ミディアム', size:'9〜9.5インチ',
       product:'True Ames Greenough 4A · 参考価格 約11,900円〜（$75〜）',
       reason:'60/40レール × モデレートロッカーはよりパフォーマンス寄りなピグ。Greenough 4Aの自然なターン弧と相性が良い。' },
-    { name:'Captain Fin Co. Justin Quintal', brand:'Captain Fin Co.', tag:'alt',
+    { name:'Captain Fin Co. Justin Quintal', brand:'Captain Fin Co.', tag:'alt', searchKey:'ロングボード シングルフィン レイク 9インチ',
       base:'約158mm（目安）', depth:'約226mm（目安）', rake:'モデレート', flex:'ミディアム', size:'9〜9.5インチ',
       product:'Captain Fin Co. Justin Quintal · 参考価格 約11,900円〜（$75〜）',
       reason:'バランス型テンプレートでメローなレイク。60/40レールのピグで自然なターンフローを出したい場合に向く。' },
@@ -580,19 +615,19 @@ var FINS = {
   ],
   /* ─── OVAL / EGG ─────────────────────────────────────── */
   'oval|rounded-pin|5050|moderate': [
-    { name:'True Ames Greenough 4A 8.5〜9インチ', brand:'True Ames', tag:'best',
+    { name:'True Ames Greenough 4A 8.5〜9インチ', brand:'True Ames', tag:'best', searchKey:'ロングボード シングルフィン レイク 9インチ',
       base:'約148mm（目安）', depth:'約220mm（目安）', rake:'スウェプト', flex:'ミディアム', size:'8.5〜9インチ',
       product:'True Ames Greenough 4A · 参考価格 約11,900円〜（$75〜）',
       reason:'オーバル × ラウンドピン × 50/50はソフトでナチュラルなフィーリング。Greenough 4Aのバランスの良さがそのまま活きる。面積を抑えてテールのルーズさを残す。' },
-    { name:'Rainbow Fin Co. Flex Fin（中型）', brand:'Rainbow Fin Co.', tag:'best',
+    { name:'Rainbow Fin Co. Flex Fin（中型）', brand:'Rainbow Fin Co.', tag:'best', searchKey:'ロングボード シングルフィン フレックス 9インチ',
       base:'約150mm（目安）', depth:'約218mm（目安）', rake:'モデレート', flex:'フレックス', size:'8.5〜9インチ',
       product:'Rainbow Fin Co. Flex Fin · 参考価格 約11,100円〜（$70〜）',
       reason:'オールラウンドフレックスフィン。スピードとレスポンシブ性を高める。オーバルのナチュラルなフィーリングをさらに柔らかくする。小波〜中波向き。' },
-    { name:'Captain Fin Co. CF Raked（8〜8.5インチ）', brand:'Captain Fin Co.', tag:'alt',
+    { name:'Captain Fin Co. CF Raked（8〜8.5インチ）', brand:'Captain Fin Co.', tag:'alt', searchKey:'ロングボード シングルフィン レイク 8インチ',
       base:'約148mm（目安）', depth:'約215mm（目安）', rake:'レイク', flex:'ミディアム', size:'8〜8.5インチ',
       product:'Captain Fin Co. CF Raked · 参考価格 約10,300円〜（$65〜）',
       reason:'ミッドレングス・エッグにも対応するサイズ展開。オールラウンドでアドバンスドな動きに対応。50/50のソフトさを引き締める効果がある。' },
-    { name:'FCS II Single Fin 8〜9インチ', brand:'FCS II', tag:'alt',
+    { name:'FCS II Single Fin 8〜9インチ', brand:'FCS II', tag:'alt', searchKey:'FCS シングルフィン 9インチ',
       base:'165mm（8インチ・メーカー公表値）', depth:'203mm（8インチ・メーカー公表値）', rake:'32.7度（メーカー公表値）', flex:'スティッフ PG', size:'8〜9インチ',
       product:'FCS II Single Fin · 参考価格 約10,300円〜（$65〜）',
       reason:'FCSシステムのボードに。メーカー公表値があり信頼性が高い。' },
@@ -602,19 +637,19 @@ var FINS = {
   ],
   /* ─── DEFAULT ─────────────────────────────────────────── */
   '_default': [
-    { name:'True Ames Greenough 4A', brand:'True Ames', tag:'best',
+    { name:'True Ames Greenough 4A', brand:'True Ames', tag:'best', searchKey:'ロングボード シングルフィン レイク 9インチ',
       base:'約155mm（目安）', depth:'約230mm（目安）', rake:'モデレート〜スウェプト', flex:'ミディアム（先端フレックス）', size:'9インチ（ボード9フィートの場合の目安）',
       product:'True Ames Greenough 4A · 参考価格 約11,900円〜（$75〜）',
       reason:'迷ったらGreenough 4A。40年以上世界で最も使われてきたシングルフィンで、ほとんどのボード形状に対応する万能フィン。' },
-    { name:'Rainbow Fin Co. Pivot', brand:'Rainbow Fin Co.', tag:'best',
+    { name:'Rainbow Fin Co. Pivot', brand:'Rainbow Fin Co.', tag:'best', searchKey:'ロングボード シングルフィン ピボット 10インチ',
       base:'約170mm（目安）', depth:'約232mm（目安）', rake:'低い（ピボット型）', flex:'スティッフ', size:'9〜10インチ',
       product:'Rainbow Fin Co. Pivot · 参考価格 約11,100円〜（$70〜）',
       reason:'57年以上の歴史を持つハンドクラフトブランドの定番ピボット。ノーズライド志向のサーファーに特に向く。' },
-    { name:'Captain Fin Co. CF Raked', brand:'Captain Fin Co.', tag:'alt',
+    { name:'Captain Fin Co. CF Raked', brand:'Captain Fin Co.', tag:'alt', searchKey:'ロングボード シングルフィン レイク 10インチ',
       base:'約158mm（目安）', depth:'約228mm（目安）', rake:'レイク（スウェプト）', flex:'ミディアム', size:'9.5〜10インチ',
       product:'Captain Fin Co. CF Raked · 参考価格 約10,300円〜（$65〜）',
       reason:'キャプテンフィンのスタンダードなラークドフィン。オールラウンドかつアドバンスドな動きに対応。デザインも個性的。' },
-    { name:'FCS II Single Fin', brand:'FCS II', tag:'alt',
+    { name:'FCS II Single Fin', brand:'FCS II', tag:'alt', searchKey:'FCS シングルフィン 9インチ',
       base:'165mm（8インチ・メーカー公表値）', depth:'203mm（8インチ・メーカー公表値）', rake:'32.7度（メーカー公表値）', flex:'スティッフ PG', size:'8〜9インチ',
       product:'FCS II Single Fin · 参考価格 約10,300円〜（$65〜）',
       reason:'FCSシステムで唯一メーカー公表の寸法データが確認できるフィン。サイズ選びの基準として使いやすい。' },
@@ -710,8 +745,8 @@ function render() {
       '<div class="fc-reason">'+f.reason+'</div>' +
       (f.product ? '<div class="prod">📌 参考商品: <span>'+f.product+'</span></div>' : '') +
       (f.tag !== 'ng' ? '<div class="prod-search">' +
-        '<div class="copy-hint">📋 商品名をコピーしてショップで検索</div>' +
-        '<button class="copy-btn" onclick="copyFinName(this, \'' + f.name.replace(/'/g, "\\'") + '\')" type="button">📋 ' + f.name + ' をコピー</button>' +
+        '<div class="copy-hint">📋 検索キーワードをコピーしてショップで検索</div>' +
+        '<button class="copy-btn" onclick="copyFinName(this, \'' + (f.searchKey || f.name).replace(/['"\/\\\.]/g, '').replace(/\s+/g, ' ').trim().replace(/'/g, "\\'") + '\')" type="button">📋 ' + (f.searchKey || f.name).replace(/['"\/\\\.]/g, '').replace(/\s+/g, ' ').trim() + ' をコピー</button>' +
         '</div>' : '') +
       (f.tag !== 'ng' ? '<div class="shop-links">' : '<div style="display:none">') +
         '<a class="shop-btn shop-btn-c" href="https://px.a8.net/svt/ejp?a8mat=4B3XB5+4HCHPU+5LNQ+5YJRM" rel="nofollow" target="_blank">メルカリで探す</a>' +

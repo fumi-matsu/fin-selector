@@ -428,54 +428,6 @@ footer{margin-top:50px;padding-top:18px;border-top:1px solid var(--border);font-
 <div class="div"></div>
 
 
-<div class="step">02.5 — 体重補正・フィン位置ガイド</div>
-
-<!-- 体重補正 -->
-<div class="weight-section">
-  <div class="ws-label">WEIGHT CORRECTION — 体重によるフィンサイズ補正</div>
-  <div class="weight-row">
-    <input class="weight-input" type="number" id="weight-input" min="40" max="120" value="70" oninput="render()">
-    <span class="weight-unit">kg</span>
-    <span class="weight-note" id="weight-note">推奨サイズは標準（70kg基準）のまま</span>
-  </div>
-</div>
-
-<!-- フィン位置ガイド -->
-<div class="pos-guide">
-  <div class="pg-title">FIN POSITION GUIDE — 波質・コンディション別の前後調整</div>
-  <div class="cond-grid">
-    <div class="cond-item">
-      <div class="cond-name">オンショア・荒れた波</div>
-      <div class="cond-val">バック方向へ +5〜10mm</div>
-      <div class="cond-reason">波のパワーが不安定→フィンを後ろに下げてテールホールドを強化。板が安定する。</div>
-    </div>
-    <div class="cond-item">
-      <div class="cond-name">オフショア・クリーンな波</div>
-      <div class="cond-val">センター基準</div>
-      <div class="cond-reason">波のパワーが安定→センターで十分。スタイルに合わせて前後±5mmで微調整。</div>
-    </div>
-    <div class="cond-item">
-      <div class="cond-name">腹〜胸サイズ（小波）</div>
-      <div class="cond-val">フォワード方向へ +5〜10mm</div>
-      <div class="cond-reason">パワーが弱い→テールをルーズにしてターンを軽くする。板が動かしやすくなる。</div>
-    </div>
-    <div class="cond-item">
-      <div class="cond-name">頭〜オーバーヘッド（大波）</div>
-      <div class="cond-val">バック方向へ +10〜15mm</div>
-      <div class="cond-reason">強いパワー→フィンをバックに下げてホールドと安定を最大化。ノーズライドも安定。</div>
-    </div>
-    <div class="cond-item">
-      <div class="cond-name">試合当日：ノーズライド重視</div>
-      <div class="cond-val">バック（最後端）</div>
-      <div class="cond-reason">テール固定を最優先。入水前に確認し、前夜から決めておくのが理想。</div>
-    </div>
-    <div class="cond-item">
-      <div class="cond-name">試合当日：ターン・技重視</div>
-      <div class="cond-val">センター〜フォワード</div>
-      <div class="cond-reason">動きの軽さを優先。カットバックやドロップニーのキレが増す。</div>
-    </div>
-  </div>
-</div>
 
 <!-- 比較モード -->
 <div class="compare-toggle">
@@ -526,7 +478,55 @@ footer{margin-top:50px;padding-top:18px;border-top:1px solid var(--border);font-
   </div>
 </div>
 
+<!-- 体重によるサイズ補正（推奨フィンの後） -->
+<div class="weight-section">
+  <div class="ws-label">WEIGHT CORRECTION — 体重によるフィンサイズ補正</div>
+  <div class="weight-row">
+    <input class="weight-input" type="number" id="weight-input" min="40" max="120" value="70" oninput="updateWeightNote()">
+    <span class="weight-unit">kg</span>
+  </div>
+  <div class="weight-result" id="weight-note" style="margin-top:10px;font-size:12px;color:var(--text2);line-height:1.8;font-weight:300;">
+    上記推奨フィンのサイズは標準（70kg基準）のまま使用できます。
+  </div>
+</div>
+
+<!-- フィン位置ガイド -->
 <div class="pos-note" id="pos-note"></div>
+<div class="pos-guide">
+  <div class="pg-title">FIN POSITION GUIDE — 波質・コンディション別の前後調整</div>
+  <div class="cond-grid">
+    <div class="cond-item">
+      <div class="cond-name">オンショア・荒れた波</div>
+      <div class="cond-val">バック方向へ +5〜10mm</div>
+      <div class="cond-reason">波のパワーが不安定→フィンを後ろに下げてテールホールドを強化。板が安定する。</div>
+    </div>
+    <div class="cond-item">
+      <div class="cond-name">オフショア・クリーンな波</div>
+      <div class="cond-val">センター基準</div>
+      <div class="cond-reason">波のパワーが安定→センターで十分。スタイルに合わせて前後±5mmで微調整。</div>
+    </div>
+    <div class="cond-item">
+      <div class="cond-name">腹〜胸サイズ（小波）</div>
+      <div class="cond-val">フォワード方向へ +5〜10mm</div>
+      <div class="cond-reason">パワーが弱い→テールをルーズにしてターンを軽くする。板が動かしやすくなる。</div>
+    </div>
+    <div class="cond-item">
+      <div class="cond-name">頭〜オーバーヘッド（大波）</div>
+      <div class="cond-val">バック方向へ +10〜15mm</div>
+      <div class="cond-reason">強いパワー→フィンをバックに下げてホールドと安定を最大化。ノーズライドも安定。</div>
+    </div>
+    <div class="cond-item">
+      <div class="cond-name">試合当日：ノーズライド重視</div>
+      <div class="cond-val">バック（最後端）</div>
+      <div class="cond-reason">テール固定を最優先。入水前に確認し、前夜から決めておくのが理想。</div>
+    </div>
+    <div class="cond-item">
+      <div class="cond-name">試合当日：ターン・技重視</div>
+      <div class="cond-val">センター〜フォワード</div>
+      <div class="cond-reason">動きの軽さを優先。カットバックやドロップニーのキレが増す。</div>
+    </div>
+  </div>
+</div>
 
 <!-- インライン広告（セレクター結果とマトリクスの間） -->
 <div class="ad-inline">
@@ -837,16 +837,32 @@ function getFins() {
 function getWeightAdj() {
   var el = document.getElementById('weight-input');
   var w = el ? (parseInt(el.value) || 70) : 70;
+  if (w < 55)      return -0.75;
+  else if (w < 65) return -0.25;
+  else if (w < 80) return  0;
+  else if (w < 90) return  0.25;
+  else              return  0.75;
+}
+
+function updateWeightNote() {
+  var el = document.getElementById('weight-input');
+  var w = el ? (parseInt(el.value) || 70) : 70;
   var note = document.getElementById('weight-note');
+  if (!note) return;
   var msg = '';
-  var adj = 0;
-  if (w < 55)      { msg = '−0.5〜1インチ小さめが目安'; adj = -0.75; }
-  else if (w < 65) { msg = '標準より若干小さめでもOK';   adj = -0.25; }
-  else if (w < 80) { msg = '標準（70kg基準）のまま';      adj =  0;    }
-  else if (w < 90) { msg = '標準より若干大きめが目安';    adj =  0.25; }
-  else              { msg = '+0.5〜1インチ大きめが目安';   adj =  0.75; }
-  if (note) note.textContent = w + 'kg → ' + msg;
-  return adj;
+  var color = 'var(--text2)';
+  if (w < 55) {
+    msg = '体重が軽め（' + w + 'kg）のため、上記推奨フィンのサイズから <strong style="color:#00a89e;">0.5〜1インチ小さめ</strong> を試してみてください。';
+  } else if (w < 65) {
+    msg = '体重がやや軽め（' + w + 'kg）のため、上記推奨フィンのサイズから <strong style="color:#00a89e;">0.5インチ小さめ</strong> でも十分なことがあります。';
+  } else if (w < 80) {
+    msg = '体重が標準範囲（' + w + 'kg）のため、上記推奨フィンのサイズはそのまま使用できます。';
+  } else if (w < 90) {
+    msg = '体重がやや重め（' + w + 'kg）のため、上記推奨フィンのサイズから <strong style="color:#ff7040;">0.5インチ大きめ</strong> を試してみてください。';
+  } else {
+    msg = '体重が重め（' + w + 'kg）のため、上記推奨フィンのサイズから <strong style="color:#ff7040;">0.5〜1インチ大きめ</strong> を試してみてください。';
+  }
+  note.innerHTML = msg;
 }
 
 function buildShopLinks(f) {
@@ -980,6 +996,7 @@ function render() {
 
   /* Compare */
   if (compareMode) renderCompare();
+  updateWeightNote();
 }
 
 /* ─────────────────────────────────────────

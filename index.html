@@ -202,6 +202,15 @@ footer{margin-top:50px;padding-top:18px;border-top:1px solid var(--border);font-
 .rn-tag{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.12em;color:var(--cyan2);text-transform:uppercase;margin-bottom:8px;}
 .rn-name{font-size:12px;color:var(--text);line-height:1.6;font-weight:300;}
 
+/* フィン種類カード内の商品リスト */
+.fin-products{margin-top:12px;border-top:1px solid var(--border);padding-top:12px;}
+.fp-title{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.12em;color:var(--cyan2);text-transform:uppercase;margin-bottom:10px;}
+.fp-item{background:rgba(0,0,0,.2);border-radius:3px;padding:10px 12px;margin-bottom:7px;border:1px solid rgba(255,255,255,.05);}
+.fp-name{font-size:12px;font-weight:700;color:#fff;margin-bottom:2px;}
+.fp-brand{font-family:'Space Mono',monospace;font-size:9px;color:var(--cyan2);margin-bottom:4px;}
+.fp-note{font-size:11px;color:var(--text2);line-height:1.6;margin-bottom:3px;}
+.fp-price{font-size:10px;color:var(--gold);font-family:'Space Mono',monospace;}
+
 /* ─── 体重補正 ─── */
 .weight-section{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:18px;margin-bottom:22px;}
 .weight-section .ws-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.15em;color:var(--cyan);text-transform:uppercase;margin-bottom:12px;}
@@ -612,189 +621,158 @@ function pick(btn, cat) {
   render();
 }
 
-/* ─────────────────────────────────────────
-   FINS DATABASE
-───────────────────────────────────────── */
-var FINS = {
-  'classic-log|squaretail|5050|flat-flat': [
-    { name:'True Ames Heritage Nosrider', brand:'True Ames', tag:'best', searchKey:'ロングボード シングルフィン ピボット 10インチ',
-      base:'約175mm（目安）', depth:'約230mm（目安）', rake:'低い（ピボット型）', flex:'スティッフ', size:'9.5〜10.5インチ',
-      product:'True Ames Heritage Nosrider · 参考価格 約13,500円〜（$85〜）',
-      reason:'幅広スクエアテール × フラット50/50の定番。広いベースでテールを強力に押さえノーズへの重心移動を安定させる。ピボット型でドロップニーターンからのクロスステップが決まりやすい。' },
-    { name:'Rainbow Fin Co. Pivot', brand:'Rainbow Fin Co.', tag:'best', searchKey:'ロングボード シングルフィン ピボット 10インチ',
-      base:'約170mm（目安）', depth:'約232mm（目安）', rake:'低い（ピボット型）', flex:'スティッフ', size:'9〜10.5インチ',
-      product:'Rainbow Fin Co. Pivot · 参考価格 約11,100円〜（$70〜）',
-      reason:'57年以上の歴史を持つハンドクラフトブランドの定番ピボット。カラーバリエーションが豊富でノーズライド志向に特に向く。クラシックログの50/50レールとの相性が良い。' },
-    { name:'Captain Fin Co. Jesse Guglielmana', brand:'Captain Fin Co.', tag:'alt', searchKey:'ロングボード シングルフィン ピボット 10インチ',
-      base:'約168mm（目安）', depth:'約235mm（目安）', rake:'低い（ピボット型）', flex:'スティッフ', size:'9.5〜10インチ',
-      product:'Captain Fin Co. Jesse Guglielmana · 参考価格 約11,900円〜（$75〜）',
-      reason:'スムーズなアーキングターンとノーズライドを両立するシグネチャーピボット。クラシックなグラス仕上げで見た目もクリーン。' },
-    { name:'True Ames Tyler Warren Pivot', brand:'True Ames', tag:'alt', searchKey:'ロングボード シングルフィン ピボット 9インチ',
-      base:'約165mm（目安）', depth:'約240mm（目安）', rake:'やや中程度', flex:'スティッフ', size:'9〜10インチ',
-      product:'True Ames Tyler Warren Pivot · 参考価格 約11,900円〜（$75〜）',
-      reason:'ピボット安定性を保ちながらわずかにレイクがあり、カービングも可能。ノーズライドとターンを両立したい場合の選択肢。' },
-    { name:'フレックス小型（8インチ以下）', brand:'', tag:'ng', searchKey:'',
-      base:'-', depth:'-', rake:'-', flex:'-', size:'-', product:'',
-      reason:'フラットロッカー × 大型スクエアテールにフレックス小型フィンはテールが抜けてノーズライド不可能。競技では致命的。' }
-  ],
-  'classic-log|squaretail|5050|moderate': [
-    { name:'True Ames Heritage Nosrider', brand:'True Ames', tag:'best', searchKey:'ロングボード シングルフィン ピボット 10インチ',
-      base:'約175mm（目安）', depth:'約230mm（目安）', rake:'低い（ピボット型）', flex:'スティッフ', size:'9.5〜10.5インチ',
-      product:'True Ames Heritage Nosrider · 参考価格 約13,500円〜（$85〜）',
-      reason:'モデレートロッカー × スクエアテール × 50/50は典型的なクラシックログ。ピボット型大型フィンがバランスのベスト解。' },
-    { name:'Rainbow Fin Co. Noseglider', brand:'Rainbow Fin Co.', tag:'best', searchKey:'ロングボード シングルフィン ノーズライダー ピボット 10インチ',
-      base:'約172mm（目安）', depth:'約228mm（目安）', rake:'低い（ピボット型）', flex:'スティッフ', size:'9.5〜10インチ',
-      product:'Rainbow Fin Co. Noseglider · 参考価格 約11,100円〜（$70〜）',
-      reason:'ノーズライド特化設計のピボット型。モデレートロッカーのクラシックログとの相性が良い。' },
-    { name:'FCS II Christenson Noserider', brand:'FCS II', tag:'alt', searchKey:'FCS シングルフィン ノーズライダー',
-      base:'約168mm（目安）', depth:'約235mm（目安）', rake:'スウェプト寄り', flex:'スティッフ', size:'9〜9.5インチ',
-      product:'FCS II Christenson Noserider · 参考価格 約15,600円〜（$98〜）',
-      reason:'ワイドベース × レイクで安定したノーズライドと滑らかなターン移行を両立。FCSシステム採用ボードに最適。' },
-    { name:'カットアウェイ小型', brand:'', tag:'ng', searchKey:'',
-      base:'-', depth:'-', rake:'-', flex:'-', size:'-', product:'',
-      reason:'テールのリリースが速くなりすぎてクラシックログのグライドが損なわれる。' }
-  ],
-  'noserider|squaretail|5050|flat-flat': [
-    { name:'True Ames Heritage Nosrider 大型', brand:'True Ames', tag:'best', searchKey:'ロングボード シングルフィン ピボット 11インチ',
-      base:'約182mm（目安）', depth:'約245mm（目安）', rake:'最小（完全ピボット型）', flex:'スティッフ', size:'10〜11インチ',
-      product:'True Ames Heritage Nosrider · 参考価格 約13,500円〜（$85〜）',
-      reason:'ノーズライダーの幅広ボディ × 極太ノーズには最大面積のピボット型が必要。フィンがテールを押さえる反力でノーズが浮く構造。バック限界まで下げる。' },
-    { name:'Rainbow Fin Co. Noseglider 最大型', brand:'Rainbow Fin Co.', tag:'best', searchKey:'ロングボード シングルフィン ノーズライダー 11インチ',
-      base:'約178mm（目安）', depth:'約240mm（目安）', rake:'最小（ピボット型）', flex:'スティッフ', size:'10〜11インチ',
-      product:'Rainbow Fin Co. Noseglider · 参考価格 約11,100円〜（$70〜）',
-      reason:'ノーズライダー特化のピボット最大型。True Amesの代替として十分機能しハンドクラフトの質感も魅力。' },
-    { name:'FCS II Christenson Noserider 10インチ', brand:'FCS II', tag:'alt', searchKey:'FCS シングルフィン ノーズライダー 10インチ',
-      base:'約172mm（目安）', depth:'約238mm（目安）', rake:'スウェプト寄り', flex:'スティッフ', size:'9.5〜10インチ',
-      product:'FCS II Christenson Noserider · 参考価格 約15,600円〜（$98〜）',
-      reason:'わずかなレイクがあるため純粋ピボットよりターン時の弧が自然。ノーズライドとターン移行を両立したい場合に。' },
-    { name:'Greenough 4A フレックス系', brand:'', tag:'ng', searchKey:'',
-      base:'-', depth:'-', rake:'-', flex:'-', size:'-', product:'',
-      reason:'ノーズライダーにフレックス系はテールの押さえが不十分。' }
-  ],
-  'noserider|squaretail|combo|flat-flat': [
-    { name:'FCS II Christenson Noserider 10インチ', brand:'FCS II', tag:'best', searchKey:'FCS シングルフィン ノーズライダー 10インチ',
-      base:'約172mm（目安）', depth:'約238mm（目安）', rake:'中程度', flex:'スティッフ', size:'9.5〜10インチ',
-      product:'FCS II Christenson Noserider · 参考価格 約15,600円〜（$98〜）',
-      reason:'コンビレール（後部ハード）はホールドを部分的に担う。フィンは若干レイクがある方がターン〜ノーズライドのトランジションがスムーズ。' },
-    { name:'True Ames Heritage Nosrider', brand:'True Ames', tag:'alt', searchKey:'ロングボード シングルフィン ピボット 10インチ',
-      base:'約175mm（目安）', depth:'約230mm（目安）', rake:'低い', flex:'スティッフ', size:'9.5〜10.5インチ',
-      product:'True Ames Heritage Nosrider · 参考価格 約13,500円〜（$85〜）',
-      reason:'純粋ノーズライド時間を最大化したい場合はこちらをバック配置で。' },
-    { name:'カットアウェイ系', brand:'', tag:'ng', searchKey:'',
-      base:'-', depth:'-', rake:'-', flex:'-', size:'-', product:'',
-      reason:'コンペレベルのノーズライドには面積が不足する。' }
-  ],
-  'performance-log|rounded-pin|6040|flat-flat': [
-    { name:'True Ames Greenough 4A', brand:'True Ames', tag:'best', searchKey:'ロングボード シングルフィン レイク 9インチ',
-      base:'約155mm（目安）', depth:'約230mm（目安）', rake:'モデレート〜スウェプト', flex:'ミディアム（先端フレックス）', size:'8.5〜9.5インチ',
-      product:'True Ames Greenough 4A · 参考価格 約11,900円〜（$75〜）',
-      reason:'パフォーマンスログの王道フィン。ベースが広くドライブを生みながら先端の適度なフレックスがターンのリリースを自然にする。40年以上使われてきた実績がある。' },
-    { name:'Captain Fin Co. CF Raked 9.5〜10インチ', brand:'Captain Fin Co.', tag:'best', searchKey:'ロングボード シングルフィン レイク 10インチ',
-      base:'約158mm（目安）', depth:'約228mm（目安）', rake:'レイク（スウェプト）', flex:'ミディアム', size:'9.5〜10インチ',
-      product:'Captain Fin Co. CF Raked · 参考価格 約10,300円〜（$65〜）',
-      reason:'オールラウンドかつアドバンスドな動きに対応するインハウス設計のラークドフィン。60/40レールのパフォーマンスログとのバランスが良い。' },
-    { name:'Rainbow Fin Co. LongRake', brand:'Rainbow Fin Co.', tag:'alt', searchKey:'ロングボード シングルフィン レイク 9インチ',
-      base:'約160mm（目安）', depth:'約232mm（目安）', rake:'スウェプト（レイク大きめ）', flex:'ミディアム', size:'8.5〜9.5インチ',
-      product:'Rainbow Fin Co. LongRake · 参考価格 約11,100円〜（$70〜）',
-      reason:'ベースを広げてドライブを強化しつつ薄い先端でレスポンシブな動きを実現。ターン重視設定に向く。' },
-    { name:'FCS II Single Fin 8〜9インチ', brand:'FCS II', tag:'alt', searchKey:'FCS シングルフィン 9インチ',
-      base:'165mm（8インチ・メーカー公表値）', depth:'203mm（8インチ・メーカー公表値）', rake:'32.7度（メーカー公表値）', flex:'スティッフ（PG）', size:'8〜9インチ',
-      product:'FCS II Single Fin · 参考価格 約10,300円〜（$65〜）',
-      reason:'FCSシステム採用ボードならこちら。メーカー公表の寸法データがあり信頼性が高い。' },
-    { name:'ピボット大型（10インチ以上）', brand:'', tag:'ng', searchKey:'',
-      base:'-', depth:'-', rake:'-', flex:'-', size:'-', product:'',
-      reason:'パフォーマンスログに大型ピボットはターンが重くなりすぎる。60/40レールのシャープさを活かせない。' }
-  ],
-  'performance-log|pin|8020|flat-flat': [
-    { name:'True Ames Greenough 4A 中型', brand:'True Ames', tag:'best', searchKey:'ロングボード シングルフィン レイク 8インチ',
-      base:'約148mm（目安）', depth:'約215mm（目安）', rake:'スウェプト', flex:'ミディアム', size:'8〜9インチ',
-      product:'True Ames Greenough 4A · 参考価格 約11,900円〜（$75〜）',
-      reason:'ピンテール × ダウンレール × フラットは最もホールドが強い組み合わせ。フィンはやや小さめにして抵抗を最小化しスピードとターンの軽さを引き出す。' },
-    { name:'Captain Fin Co. Alex Knost Sunshine Volan', brand:'Captain Fin Co.', tag:'alt', searchKey:'ロングボード シングルフィン レイク 9インチ',
-      base:'約152mm（目安）', depth:'約220mm（目安）', rake:'スウェプト（レイク寄り）', flex:'ミディアム（Volanフレックス）', size:'8.5〜9.5インチ',
-      product:'Captain Fin Co. Alex Knost Sunshine · 参考価格 約12,700円〜（$80〜）',
-      reason:'Volan100%グラスのスプリングのあるフレックスと薄い先端。ダウンレール × ピンテールのホールドを活かしつつ動きを軽くする。' },
-    { name:'FCS II Single Fin 8インチ', brand:'FCS II', tag:'alt', searchKey:'FCS シングルフィン 8インチ',
-      base:'165mm（メーカー公表値）', depth:'203mm（メーカー公表値）', rake:'32.7度（メーカー公表値）', flex:'スティッフ PG', size:'8インチ',
-      product:'FCS II Single Fin · 参考価格 約10,300円〜（$65〜）',
-      reason:'数値が明確で選びやすい。ダウンレール × ピンテールのホールドを上手く活かす。' },
-    { name:'ピボット系（最小レイク）', brand:'', tag:'ng', searchKey:'',
-      base:'-', depth:'-', rake:'-', flex:'-', size:'-', product:'',
-      reason:'ピンテール × ダウンレールに大型ピボットはオーバーホールド。ターン開始が重すぎる。' }
-  ],
-  'pig|squaretail|5050|flat-flat': [
-    { name:'Rainbow Fin Co. Pivot 中型', brand:'Rainbow Fin Co.', tag:'best', searchKey:'ロングボード シングルフィン ピボット 9インチ',
-      base:'約162mm（目安）', depth:'約230mm（目安）', rake:'低い（ピボット型）', flex:'ミディアム', size:'9〜10インチ',
-      product:'Rainbow Fin Co. Pivot · 参考価格 約11,100円〜（$70〜）',
-      reason:'ピグはテール幅が広く重心がテール寄り。ピボット型でテールホールドを強化しつつRainbow Fin Coのミディアムフレックスがピグの独特なターンフィーリングと合う。' },
-    { name:'True Ames Troy Elmore Pivot', brand:'True Ames', tag:'alt', searchKey:'ロングボード シングルフィン ピボット 9インチ',
-      base:'約160mm（目安）', depth:'約228mm（目安）', rake:'やや低め（ピボット寄り）', flex:'ミディアム', size:'9〜10インチ',
-      product:'True Ames Troy Elmore Pivot · 参考価格 約12,700円〜（$80〜）',
-      reason:'程よいレイクでターンの弧も自然。ピグのスローなターンリズムに合う。' },
-    { name:'極小フレックス（8インチ以下）', brand:'', tag:'ng', searchKey:'',
-      base:'-', depth:'-', rake:'-', flex:'-', size:'-', product:'',
-      reason:'ピグのテール幅の広さをコントロールできない。テールが抜けすぎる。' }
-  ],
-  'pig|squaretail|6040|moderate': [
-    { name:'True Ames Greenough 4A 9〜9.5インチ', brand:'True Ames', tag:'best', searchKey:'ロングボード シングルフィン レイク 9インチ',
-      base:'約155mm（目安）', depth:'約230mm（目安）', rake:'モデレート〜スウェプト', flex:'ミディアム', size:'9〜9.5インチ',
-      product:'True Ames Greenough 4A · 参考価格 約11,900円〜（$75〜）',
-      reason:'60/40レール × モデレートロッカーはよりパフォーマンス寄りなピグ。Greenough 4Aの自然なターン弧と相性が良い。' },
-    { name:'Captain Fin Co. Justin Quintal', brand:'Captain Fin Co.', tag:'alt', searchKey:'ロングボード シングルフィン レイク 9インチ',
-      base:'約158mm（目安）', depth:'約226mm（目安）', rake:'モデレート', flex:'ミディアム', size:'9〜9.5インチ',
-      product:'Captain Fin Co. Justin Quintal · 参考価格 約11,900円〜（$75〜）',
-      reason:'バランス型テンプレートでメローなレイク。60/40レールのピグで自然なターンフローを出したい場合に向く。' },
-    { name:'超大型（10.5インチ以上）', brand:'', tag:'ng', searchKey:'',
-      base:'-', depth:'-', rake:'-', flex:'-', size:'-', product:'',
-      reason:'ピグのターンのテンポを壊す。' }
-  ],
-  'oval|rounded-pin|5050|moderate': [
-    { name:'True Ames Greenough 4A 8.5〜9インチ', brand:'True Ames', tag:'best', searchKey:'ロングボード シングルフィン レイク 9インチ',
-      base:'約148mm（目安）', depth:'約220mm（目安）', rake:'スウェプト', flex:'ミディアム', size:'8.5〜9インチ',
-      product:'True Ames Greenough 4A · 参考価格 約11,900円〜（$75〜）',
-      reason:'オーバル × ラウンドピン × 50/50はソフトでナチュラルなフィーリング。Greenough 4Aのバランスの良さがそのまま活きる。面積を抑えてテールのルーズさを残す。' },
-    { name:'Rainbow Fin Co. Flex Fin 中型', brand:'Rainbow Fin Co.', tag:'best', searchKey:'ロングボード シングルフィン フレックス 9インチ',
-      base:'約150mm（目安）', depth:'約218mm（目安）', rake:'モデレート', flex:'フレックス', size:'8.5〜9インチ',
-      product:'Rainbow Fin Co. Flex Fin · 参考価格 約11,100円〜（$70〜）',
-      reason:'オールラウンドフレックスフィン。オーバルのナチュラルなフィーリングをさらに柔らかくする。小波〜中波向き。' },
-    { name:'Captain Fin Co. CF Raked 8〜8.5インチ', brand:'Captain Fin Co.', tag:'alt', searchKey:'ロングボード シングルフィン レイク 8インチ',
-      base:'約148mm（目安）', depth:'約215mm（目安）', rake:'レイク', flex:'ミディアム', size:'8〜8.5インチ',
-      product:'Captain Fin Co. CF Raked · 参考価格 約10,300円〜（$65〜）',
-      reason:'ミッドレングス・エッグにも対応するサイズ展開。50/50のソフトさを引き締める効果がある。' },
-    { name:'FCS II Single Fin 8〜9インチ', brand:'FCS II', tag:'alt', searchKey:'FCS シングルフィン 9インチ',
-      base:'165mm（8インチ・メーカー公表値）', depth:'203mm（8インチ・メーカー公表値）', rake:'32.7度（メーカー公表値）', flex:'スティッフ PG', size:'8〜9インチ',
-      product:'FCS II Single Fin · 参考価格 約10,300円〜（$65〜）',
-      reason:'FCSシステムのボードに。メーカー公表値があり信頼性が高い。' },
-    { name:'ピボット大型（10インチ以上）', brand:'', tag:'ng', searchKey:'',
-      base:'-', depth:'-', rake:'-', flex:'-', size:'-', product:'',
-      reason:'オーバルのナチュラルなフィーリングを損なう。ターンが重くなる。' }
-  ],
-  '_default': [
-    { name:'True Ames Greenough 4A', brand:'True Ames', tag:'best', searchKey:'ロングボード シングルフィン レイク 9インチ',
-      base:'約155mm（目安）', depth:'約230mm（目安）', rake:'モデレート〜スウェプト', flex:'ミディアム（先端フレックス）', size:'9インチ（ボード9フィートの場合の目安）',
-      product:'True Ames Greenough 4A · 参考価格 約11,900円〜（$75〜）',
-      reason:'迷ったらGreenough 4A。40年以上世界で最も使われてきたシングルフィンで、ほとんどのボード形状に対応する万能フィン。' },
-    { name:'Rainbow Fin Co. Pivot', brand:'Rainbow Fin Co.', tag:'best', searchKey:'ロングボード シングルフィン ピボット 10インチ',
-      base:'約170mm（目安）', depth:'約232mm（目安）', rake:'低い（ピボット型）', flex:'スティッフ', size:'9〜10インチ',
-      product:'Rainbow Fin Co. Pivot · 参考価格 約11,100円〜（$70〜）',
-      reason:'57年以上の歴史を持つハンドクラフトブランドの定番ピボット。ノーズライド志向のサーファーに特に向く。' },
-    { name:'Captain Fin Co. CF Raked', brand:'Captain Fin Co.', tag:'alt', searchKey:'ロングボード シングルフィン レイク 10インチ',
-      base:'約158mm（目安）', depth:'約228mm（目安）', rake:'レイク（スウェプト）', flex:'ミディアム', size:'9.5〜10インチ',
-      product:'Captain Fin Co. CF Raked · 参考価格 約10,300円〜（$65〜）',
-      reason:'キャプテンフィンのスタンダードなラークドフィン。オールラウンドかつアドバンスドな動きに対応。' },
-    { name:'FCS II Single Fin', brand:'FCS II', tag:'alt', searchKey:'FCS シングルフィン 9インチ',
-      base:'165mm（8インチ・メーカー公表値）', depth:'203mm（8インチ・メーカー公表値）', rake:'32.7度（メーカー公表値）', flex:'スティッフ PG', size:'8〜9インチ',
-      product:'FCS II Single Fin · 参考価格 約10,300円〜（$65〜）',
-      reason:'FCSシステムで唯一メーカー公表の寸法データが確認できるフィン。サイズ選びの基準として使いやすい。' },
-    { name:'フレックス小型（8インチ以下）', brand:'', tag:'ng', searchKey:'',
-      base:'-', depth:'-', rake:'-', flex:'-', size:'-', product:'',
-      reason:'ロングボードシングルフィンに小型フレックスフィンは原則として向かない。' }
-  ]
+/* ═══════════════════════════════════════════
+   フィン種類データベース（6種類）
+═══════════════════════════════════════════ */
+var FIN_TYPES = {
+
+  pivot: {
+    id: 'pivot',
+    name: 'ピボットフィン',
+    nameEn: 'Pivot Fin',
+    searchKey: 'ロングボード シングルフィン ピボット',
+    tag: 'best',
+    desc: 'レイク（後退角）が最も小さく、アップライトな形状。テールを強力に固定しノーズライドに特化。ハング5・ハング10の安定に直結する。ターンの機動性よりノーズ上の時間を最大化する設計。',
+    dims: { base:'170〜185mm（目安）', depth:'225〜250mm（目安）', rake:'最小（アップライト）', flex:'スティッフ', size:'9.5〜11インチ' },
+    products: [
+      { name:'True Ames Heritage Nosrider', brand:'True Ames', note:'ノーズライド特化の定番。面積最大・最もアップライト。', price:'参考価格 約13,500円〜（$85〜）' },
+      { name:'Rainbow Fin Co. Noseglider', brand:'Rainbow Fin Co.', note:'ハンドクラフトのピボット型。カラー豊富でノーズライド志向に最適。', price:'参考価格 約11,100円〜（$70〜）' },
+      { name:'FCS II Christenson Noserider', brand:'FCS II', note:'FCSシステム対応。メーカー公表寸法あり。わずかなレイクでターン移行も自然。', price:'参考価格 約15,600円〜（$98〜）' }
+    ]
+  },
+
+  hatchet: {
+    id: 'hatchet',
+    name: 'ハチェットフィン',
+    nameEn: 'Hatchet Fin',
+    searchKey: 'ロングボード シングルフィン ハチェット',
+    tag: 'best',
+    desc: '斧の刃に似た形状。上部が広く下部が細い独特のシルエット。ピボットとDフィンの中間的特性で、ノーズライドの安定とトリムのしやすさを両立。ログでノーズライドもターンもしたい場合の最適解。',
+    dims: { base:'165〜180mm（目安）', depth:'220〜245mm（目安）', rake:'低め〜中程度', flex:'スティッフ〜ミディアム', size:'9〜10.5インチ' },
+    products: [
+      { name:'True Ames Tyler Warren Pivot', brand:'True Ames', note:'ピボット寄りのハチェット型。ノーズライドと適度なターンを両立。', price:'参考価格 約11,900円〜（$75〜）' },
+      { name:'Captain Fin Co. Jesse Guglielmana', brand:'Captain Fin Co.', note:'ハチェット形状のシグネチャーモデル。スムーズなターン弧。', price:'参考価格 約11,900円〜（$75〜）' }
+    ]
+  },
+
+  dfin: {
+    id: 'dfin',
+    name: 'Dフィン',
+    nameEn: 'D-Fin',
+    searchKey: 'ロングボード シングルフィン Dフィン',
+    tag: 'best',
+    desc: 'アルファベットのDに似た形状。テール側がほぼ直線で安定性とスムーズなターンを両立。クラシックログの定番フィン形状。ノーズライドとカービングをバランスよく楽しめる。',
+    dims: { base:'160〜175mm（目安）', depth:'215〜235mm（目安）', rake:'低め', flex:'スティッフ', size:'9〜10.5インチ' },
+    products: [
+      { name:'True Ames Troy Elmore Pivot', brand:'True Ames', note:'D字型の安定感とピボット的な動きを両立。', price:'参考価格 約12,700円〜（$80〜）' },
+      { name:'Rainbow Fin Co. Pivot', brand:'Rainbow Fin Co.', note:'Dフィン寄りのピボット型。クラシックログに幅広く対応。', price:'参考価格 約11,100円〜（$70〜）' }
+    ]
+  },
+
+  rake: {
+    id: 'rake',
+    name: 'レイクフィン（スウェプト）',
+    nameEn: 'Rake / Swept Fin',
+    searchKey: 'ロングボード シングルフィン レイク',
+    tag: 'best',
+    desc: 'レイク（後退角）が大きく後方に湾曲した形状。先端がベースの後端より大きく後退する。ターンの弧が自然でカービングに優れる。パフォーマンスログやピグに特に相性が良い。ノーズライドよりターンとスピードを重視する場合の選択。',
+    dims: { base:'148〜165mm（目安）', depth:'210〜235mm（目安）', rake:'中〜大（スウェプト）', flex:'ミディアム（先端フレックス）', size:'8〜9.5インチ' },
+    products: [
+      { name:'True Ames Greenough 4A', brand:'True Ames', note:'世界で最も使われるシングルフィン。先端フレックスでターンのリリースが自然。40年以上の実績。', price:'参考価格 約11,900円〜（$75〜）' },
+      { name:'Captain Fin Co. CF Raked', brand:'Captain Fin Co.', note:'インハウス設計のスウェプト型。オールラウンドかつアドバンスドな動きに対応。', price:'参考価格 約10,300円〜（$65〜）' },
+      { name:'Rainbow Fin Co. LongRake', brand:'Rainbow Fin Co.', note:'レイク大きめのテンプレート。ドライブとレスポンシブ性のバランスが良い。', price:'参考価格 約11,100円〜（$70〜）' }
+    ]
+  },
+
+  flex: {
+    id: 'flex',
+    name: 'フレックスフィン',
+    nameEn: 'Flex Fin',
+    searchKey: 'ロングボード シングルフィン フレックス',
+    tag: 'alt',
+    desc: '先端が大きくしなる素材（グラスやVolan）を使用。しなりがエネルギーを蓄えてターン後の推進力になる。ヴィンテージ的なフィーリングが特徴。柔らかい波や小波でのトリムに向く。',
+    dims: { base:'145〜160mm（目安）', depth:'210〜225mm（目安）', rake:'中程度', flex:'フレックス（先端大きくしなる）', size:'8.5〜9.5インチ' },
+    products: [
+      { name:'Rainbow Fin Co. Flex Fin', brand:'Rainbow Fin Co.', note:'オールラウンドフレックス型。ヴィンテージ的なしなりでスピードとレスポンスを両立。', price:'参考価格 約11,100円〜（$70〜）' },
+      { name:'Captain Fin Co. Alex Knost Sunshine（Volan）', brand:'Captain Fin Co.', note:'Volan100%グラス。スプリングのあるフレックスでクラシックなフィーリング。', price:'参考価格 約12,700円〜（$80〜）' }
+    ]
+  },
+
+  ng: {
+    id: 'ng',
+    name: 'フレックス小型（8インチ以下）',
+    nameEn: 'Small Flex Fin',
+    searchKey: '',
+    tag: 'ng',
+    desc: 'ロングボードシングルフィンに小型フレックスフィンは原則として向かない。テールホールドが不足しノーズライドが不可能になる。ショートボード用フィンを流用するケースで起きやすい。',
+    dims: { base:'-', depth:'-', rake:'-', flex:'-', size:'-' },
+    products: []
+  }
 };
 
-/* ─────────────────────────────────────────
-   POS DATA
-───────────────────────────────────────── */
+/* ═══════════════════════════════════════════
+   ボード形状 → フィン種類マッピング
+   [BEST種類ID, ALT種類ID, NG種類ID]
+═══════════════════════════════════════════ */
+var FIN_MAP = {
+  /* クラシックログ系 */
+  'classic-log|squaretail|5050|flat-flat':   ['pivot', 'hatchet', 'ng'],
+  'classic-log|squaretail|5050|moderate':    ['pivot', 'hatchet', 'ng'],
+  'classic-log|squaretail|6040|flat-flat':   ['hatchet', 'dfin',  'ng'],
+  'classic-log|squaretail|combo|flat-flat':  ['hatchet', 'pivot', 'ng'],
+  'classic-log|squash|5050|flat-flat':       ['pivot', 'hatchet', 'ng'],
+  'classic-log|squash|6040|flat-flat':       ['hatchet', 'dfin',  'ng'],
+
+  /* ノーズライダー */
+  'noserider|squaretail|5050|flat-flat':     ['pivot', 'hatchet', 'ng'],
+  'noserider|squaretail|5050|moderate':      ['pivot', 'hatchet', 'ng'],
+  'noserider|squaretail|combo|flat-flat':    ['pivot', 'hatchet', 'ng'],
+  'noserider|squash|5050|flat-flat':         ['pivot', 'hatchet', 'ng'],
+
+  /* パフォーマンスログ */
+  'performance-log|rounded-pin|6040|flat-flat': ['rake', 'flex',   'ng'],
+  'performance-log|rounded-pin|8020|flat-flat': ['rake', 'flex',   'ng'],
+  'performance-log|pin|6040|flat-flat':         ['rake', 'flex',   'ng'],
+  'performance-log|pin|8020|flat-flat':         ['rake', 'flex',   'ng'],
+  'performance-log|squash|6040|flat-flat':      ['rake', 'dfin',   'ng'],
+
+  /* ピグ / セミピグ */
+  'pig|squaretail|5050|flat-flat':           ['dfin',  'pivot',  'ng'],
+  'pig|squaretail|6040|flat-flat':           ['rake',  'dfin',   'ng'],
+  'pig|squaretail|5050|moderate':            ['dfin',  'hatchet','ng'],
+  'pig|squaretail|6040|moderate':            ['rake',  'dfin',   'ng'],
+  'pig|squash|5050|flat-flat':               ['dfin',  'hatchet','ng'],
+
+  /* オーバル / エッグ */
+  'oval|rounded-pin|5050|moderate':          ['rake',  'flex',   'ng'],
+  'oval|rounded-pin|6040|moderate':          ['rake',  'flex',   'ng'],
+  'oval|squash|5050|moderate':               ['dfin',  'rake',   'ng'],
+
+  /* スワロー / ツイン */
+  'classic-log|swallow|6040|flat-flat':      ['rake',  'flex',   'ng'],
+  'pig|swallow|6040|flat-flat':              ['rake',  'flex',   'ng'],
+
+  /* デフォルト */
+  '_default': ['rake', 'pivot', 'ng']
+};
+
+/* ボード形状から推奨フィン種類IDリストを取得 */
+function getFinTypeIds() {
+  var keys = [
+    state.outline+'|'+state.tail+'|'+state.rail+'|'+state.rocker,
+    state.outline+'|'+state.tail+'|'+state.rail+'|moderate',
+    state.outline+'|'+state.tail+'|5050|flat-flat',
+    state.outline+'|squaretail|5050|flat-flat'
+  ];
+  for (var i = 0; i < keys.length; i++) {
+    if (FIN_MAP[keys[i]]) return FIN_MAP[keys[i]];
+  }
+  return FIN_MAP['_default'];
+}
+
+/* ═══════════════════════════════════════════
+   POS / LABELS / BOARD PATHS
+═══════════════════════════════════════════ */
 var POS = {
   noseride: { label:'バック（最後端に近い側）', pct:85, note:'ノーズライドはテールを強く押さえる必要がある。フィンをバック寄りにすることでフィンの支点が後退し、ノーズ側が浮きやすくなる。ハング5・ハング10への移行が安定する。' },
   trim:     { label:'センター', pct:50, note:'トリム・フロー重視ならセンターポジションが最もバランスが良い。前後どちらにも極端に振らず、波のパワーを受けながら自然に走る設定。コンディションを見ながら前後1〜2cmで微調整する。' },
@@ -818,73 +796,26 @@ var LABELS = {
   style:   {'noseride':'ノーズライド最優先','trim':'トリム・フロー重視','turn':'ターン・コントロール重視','comp':'コンペ（全技術）'}
 };
 
-/* ─────────────────────────────────────────
-   HELPERS
-───────────────────────────────────────── */
-function getFins() {
-  var keys = [
-    state.outline + '|' + state.tail + '|' + state.rail + '|' + state.rocker,
-    state.outline + '|' + state.tail + '|' + state.rail + '|moderate',
-    state.outline + '|' + state.tail + '|5050|flat-flat',
-    state.outline + '|squaretail|5050|flat-flat'
-  ];
-  for (var i = 0; i < keys.length; i++) {
-    if (FINS[keys[i]]) return FINS[keys[i]];
-  }
-  return FINS['_default'];
-}
-
-function getWeightAdj() {
-  var el = document.getElementById('weight-input');
-  var w = el ? (parseInt(el.value) || 70) : 70;
-  if (w < 55)      return -0.75;
-  else if (w < 65) return -0.25;
-  else if (w < 80) return  0;
-  else if (w < 90) return  0.25;
-  else              return  0.75;
-}
-
-function updateWeightNote() {
-  var el = document.getElementById('weight-input');
-  var w = el ? (parseInt(el.value) || 70) : 70;
-  var note = document.getElementById('weight-note');
-  if (!note) return;
-  var msg = '';
-  var color = 'var(--text2)';
-  if (w < 55) {
-    msg = '体重が軽め（' + w + 'kg）のため、上記推奨フィンのサイズから <strong style="color:#00a89e;">0.5〜1インチ小さめ</strong> を試してみてください。';
-  } else if (w < 65) {
-    msg = '体重がやや軽め（' + w + 'kg）のため、上記推奨フィンのサイズから <strong style="color:#00a89e;">0.5インチ小さめ</strong> でも十分なことがあります。';
-  } else if (w < 80) {
-    msg = '体重が標準範囲（' + w + 'kg）のため、上記推奨フィンのサイズはそのまま使用できます。';
-  } else if (w < 90) {
-    msg = '体重がやや重め（' + w + 'kg）のため、上記推奨フィンのサイズから <strong style="color:#ff7040;">0.5インチ大きめ</strong> を試してみてください。';
-  } else {
-    msg = '体重が重め（' + w + 'kg）のため、上記推奨フィンのサイズから <strong style="color:#ff7040;">0.5〜1インチ大きめ</strong> を試してみてください。';
-  }
-  note.innerHTML = msg;
-}
-
-function buildShopLinks(f) {
-  if (f.tag === 'ng') return '';
-  var sk = (f.searchKey || f.name).replace(/['"\/\\.]/g, '').replace(/\s+/g, ' ').trim();
+/* ═══════════════════════════════════════════
+   SHOP LINKS
+═══════════════════════════════════════════ */
+function buildShopLinks(searchKey) {
+  if (!searchKey) return '';
+  var sk = searchKey.replace(/['"\/\\.]/g, '').replace(/\s+/g, ' ').trim();
   var rakSearch = 'https://search.rakuten.co.jp/search/mall/' + encodeURIComponent(sk) + '/';
   var rakLink = 'https://rpx.a8.net/svt/ejp?a8mat=4B3XB5+2W6VN6+2HOM+6C1VM&rakuten=y&a8ejpredirect=' + encodeURIComponent(rakSearch);
   var merLink = 'https://px.a8.net/svt/ejp?a8mat=4B3XB5+4HCHPU+5LNQ+5YJRM';
   var murLink = 'https://px.a8.net/svt/ejp?a8mat=4B3XB5+354DPU+5MZI+5YRHE';
   var vicLink = 'https://px.a8.net/svt/ejp?a8mat=4B3XB5+36B8XE+4ABU+NVWSI';
-  var skSafe = sk.replace(/\\/g, '').replace(/'/g, '');
+  var skSafe = sk.replace(/'/g, '');
   return '<div class="shop-section">' +
-    /* コピーボタン：幅広で上に */
     '<button class="shop-copy-wide" onclick="doCopy(this,\'' + skSafe + '\')" type="button">📋 ' + sk + ' をコピー</button>' +
-    /* メイン行：メルカリ・楽天を同サイズで横並び */
     '<div class="shop-main-row">' +
       '<a class="shop-main-btn ssb-c" href="' + merLink + '" rel="nofollow" target="_blank">🔴 メルカリで探す</a>' +
       '<img border="0" width="1" height="1" src="https://www19.a8.net/0.gif?a8mat=4B3XB5+4HCHPU+5LNQ+5YJRM" alt="">' +
       '<a class="shop-main-btn ssb-r" href="' + rakLink + '" rel="nofollow" target="_blank">🛒 楽天で探す</a>' +
       '<img border="0" width="1" height="1" src="https://www19.a8.net/0.gif?a8mat=4B3XB5+2W6VN6+2HOM+6C1VM" alt="">' +
     '</div>' +
-    /* サブ行：ムラサキ・ヴィクトリアを補助 */
     '<div class="shop-sub">' +
       '<a class="shop-sub-btn ssb-m" href="' + murLink + '" rel="nofollow" target="_blank">ムラサキスポーツで探す</a>' +
       '<img border="0" width="1" height="1" src="https://www18.a8.net/0.gif?a8mat=4B3XB5+354DPU+5MZI+5YRHE" alt="">' +
@@ -911,9 +842,99 @@ function doCopy(btn, text) {
   });
 }
 
-/* ─────────────────────────────────────────
+/* ═══════════════════════════════════════════
+   フィン種類カード生成
+═══════════════════════════════════════════ */
+function buildFinTypeCard(typeId, tag, adjNote, hidden) {
+  var ft = FIN_TYPES[typeId];
+  if (!ft) return '';
+  var badgeMap = { best:'<span class="badge b-best">BEST</span>', alt:'<span class="badge b-alt">ALT</span>', ng:'<span class="badge b-ng">AVOID</span>' };
+  var hiddenAttr = hidden ? ' style="display:none"' : '';
+  var tagClass = tag || ft.tag;
+
+  /* 寸法チップ */
+  var dimsHtml = '';
+  if (ft.dims.base !== '-') {
+    dimsHtml = '<div class="fin-row"><div class="dims">' +
+      '<div class="dc"><span class="dk">BASE</span><span class="dv">'+ft.dims.base+'</span></div>' +
+      '<div class="dc"><span class="dk">DEPTH</span><span class="dv">'+ft.dims.depth+'</span></div>' +
+      '<div class="dc"><span class="dk">RAKE</span><span class="dv">'+ft.dims.rake+'</span></div>' +
+      '<div class="dc"><span class="dk">FLEX</span><span class="dv">'+ft.dims.flex+'</span></div>' +
+      '<div class="dc"><span class="dk">SIZE</span><span class="dv">'+ft.dims.size+(adjNote||'')+'</span></div>' +
+      '</div></div>';
+  }
+
+  /* 商品リスト */
+  var productsHtml = '';
+  if (ft.products.length > 0) {
+    productsHtml = '<div class="fin-products">' +
+      '<div class="fp-title">この形状の代表商品</div>';
+    for (var i = 0; i < ft.products.length; i++) {
+      var p = ft.products[i];
+      productsHtml += '<div class="fp-item">' +
+        '<div class="fp-name">'+p.name+'</div>' +
+        '<div class="fp-brand">'+p.brand+'</div>' +
+        '<div class="fp-note">'+p.note+'</div>' +
+        '<div class="fp-price">'+p.price+'</div>' +
+        '</div>';
+    }
+    productsHtml += '</div>';
+  }
+
+  /* ショップリンク */
+  var shopHtml = tagClass !== 'ng' ? buildShopLinks(ft.searchKey) : '';
+
+  return '<div class="fc ' + tagClass + '"' + hiddenAttr + '>' +
+    '<div class="fc-top">' +
+      '<div class="fc-title-group">' +
+        '<div class="fc-name">'+ft.name+'</div>' +
+        '<div class="fc-brand">'+ft.nameEn+'</div>' +
+      '</div>' +
+      (badgeMap[tagClass]||'') +
+    '</div>' +
+    '<div class="fc-reason">'+ft.desc+'</div>' +
+    dimsHtml +
+    productsHtml +
+    shopHtml +
+    '</div>';
+}
+
+/* ═══════════════════════════════════════════
+   WEIGHT
+═══════════════════════════════════════════ */
+function getWeightAdj() {
+  var el = document.getElementById('weight-input');
+  var w = el ? (parseInt(el.value) || 70) : 70;
+  if (w < 55)      return -0.75;
+  else if (w < 65) return -0.25;
+  else if (w < 80) return  0;
+  else if (w < 90) return  0.25;
+  else              return  0.75;
+}
+
+function updateWeightNote() {
+  var el = document.getElementById('weight-input');
+  var w = el ? (parseInt(el.value) || 70) : 70;
+  var note = document.getElementById('weight-note');
+  if (!note) return;
+  var msg = '';
+  if (w < 55) {
+    msg = '体重が軽め（'+w+'kg）のため、上記推奨フィンのサイズから <strong style="color:#00a89e;">0.5〜1インチ小さめ</strong> を試してみてください。';
+  } else if (w < 65) {
+    msg = '体重がやや軽め（'+w+'kg）のため、上記推奨フィンのサイズから <strong style="color:#00a89e;">0.5インチ小さめ</strong> でも十分なことがあります。';
+  } else if (w < 80) {
+    msg = '体重が標準範囲（'+w+'kg）のため、上記推奨フィンのサイズはそのまま使用できます。';
+  } else if (w < 90) {
+    msg = '体重がやや重め（'+w+'kg）のため、上記推奨フィンのサイズから <strong style="color:#ff7040;">0.5インチ大きめ</strong> を試してみてください。';
+  } else {
+    msg = '体重が重め（'+w+'kg）のため、上記推奨フィンのサイズから <strong style="color:#ff7040;">0.5〜1インチ大きめ</strong> を試してみてください。';
+  }
+  note.innerHTML = msg;
+}
+
+/* ═══════════════════════════════════════════
    RENDER
-───────────────────────────────────────── */
+═══════════════════════════════════════════ */
 function render() {
   /* Board SVG */
   var bp = document.getElementById('board-path');
@@ -937,46 +958,27 @@ function render() {
     return '<div class="brow"><span class="bn">'+r[0]+'</span><span class="bv">'+r[1]+'</span></div>';
   }).join('');
 
-  /* Weight note */
+  /* Weight adj note */
   var adj = getWeightAdj();
-  var adjNote = adj !== 0 ? ' <span style="color:' + (adj>0?'#ff7040':'#00a89e') + ';font-size:9px;">' + (adj>0?'▲':'▼') + '体重補正あり</span>' : '';
+  var adjNote = adj !== 0
+    ? ' <span style="color:'+(adj>0?'#ff7040':'#00a89e')+';font-size:9px;">'+(adj>0?'▲':'▼')+'体重補正あり</span>'
+    : '';
 
-  /* Fin cards */
-  var fins = getFins();
-  var badgeMap = { best:'<span class="badge b-best">BEST</span>', alt:'<span class="badge b-alt">ALT</span>', ng:'<span class="badge b-ng">AVOID</span>' };
-  var html = '<div class="ft">RECOMMENDED FIN</div><div class="fin-cards-wrap">';
+  /* Fin type cards */
+  var typeIds = getFinTypeIds();
+  var html = '<div class="ft">RECOMMENDED FIN TYPE</div><div class="fin-cards-wrap">';
   var shownCount = 0, hiddenCount = 0;
 
-  for (var i = 0; i < fins.length; i++) {
-    var f = fins[i];
-    var hide = (f.tag === 'alt' && shownCount > 1) || f.tag === 'ng';
+  for (var i = 0; i < typeIds.length; i++) {
+    var typeId = typeIds[i];
+    var tag = i === 0 ? 'best' : i === 1 ? 'alt' : 'ng';
+    var hide = tag === 'ng' || (tag === 'alt' && shownCount > 0);
     if (!hide) shownCount++; else hiddenCount++;
-
-    var hasDims = f.base !== '-';
-    var dimsHtml = '';
-    if (hasDims) {
-      dimsHtml = '<div class="fin-row"><div class="dims">' +
-        '<div class="dc"><span class="dk">BASE</span><span class="dv">'+f.base+'</span></div>' +
-        '<div class="dc"><span class="dk">DEPTH</span><span class="dv">'+f.depth+'</span></div>' +
-        '<div class="dc"><span class="dk">RAKE</span><span class="dv">'+f.rake+'</span></div>' +
-        '<div class="dc"><span class="dk">FLEX</span><span class="dv">'+f.flex+'</span></div>' +
-        '<div class="dc"><span class="dk">SIZE</span><span class="dv">'+f.size+adjNote+'</span></div>' +
-        '</div></div>';
-    }
-    var brandHtml = f.brand ? '<div class="fc-brand">'+f.brand+'</div>' : '';
-    var hiddenAttr = hide ? ' style="display:none"' : '';
-
-    html += '<div class="fc ' + f.tag + '"' + hiddenAttr + '>' +
-      '<div class="fc-top"><div class="fc-title-group"><div class="fc-name">'+f.name+'</div>'+brandHtml+'</div>'+(badgeMap[f.tag]||'')+'</div>' +
-      dimsHtml +
-      '<div class="fc-reason">'+f.reason+'</div>' +
-      (f.product ? '<div class="prod">📌 参考商品: <span>'+f.product+'</span></div>' : '') +
-      buildShopLinks(f) +
-      '</div>';
+    html += buildFinTypeCard(typeId, tag, adjNote, hide);
   }
   html += '</div>';
   if (hiddenCount > 0) {
-    html += '<button class="expand-btn" id="expand-btn" onclick="expandFins()">▼ 全フィンを見る（あと' + hiddenCount + '件）</button>';
+    html += '<button class="expand-btn" id="expand-btn" onclick="expandFins()">▼ ' + (typeIds.length > 2 ? 'AVOIDフィンを見る' : 'ALTフィンを見る') + '（あと'+hiddenCount+'件）</button>';
   }
   var fr = document.getElementById('fin-results');
   if (fr) fr.innerHTML = html;
@@ -994,14 +996,13 @@ function render() {
       '</div><div class="pos-cent">'+posDir+'</div>';
   }
 
-  /* Compare */
   if (compareMode) renderCompare();
   updateWeightNote();
 }
 
-/* ─────────────────────────────────────────
+/* ═══════════════════════════════════════════
    EXPAND
-───────────────────────────────────────── */
+═══════════════════════════════════════════ */
 function expandFins() {
   var wrap = document.querySelector('.fin-cards-wrap');
   if (!wrap) return;
@@ -1016,9 +1017,9 @@ function expandFins() {
   if (btn) btn.style.display = 'none';
 }
 
-/* ─────────────────────────────────────────
+/* ═══════════════════════════════════════════
    比較モード
-───────────────────────────────────────── */
+═══════════════════════════════════════════ */
 function toggleCompare() {
   compareMode = !compareMode;
   var btn = document.getElementById('compare-btn');
@@ -1042,8 +1043,8 @@ function buildCompareSels() {
   ];
   var h = '';
   cats.forEach(function(c) {
-    h += '<div style="font-family:monospace;font-size:9px;color:var(--cyan2);margin-bottom:3px;letter-spacing:.1em;text-transform:uppercase;">' + c.label + '</div>';
-    h += '<select onchange="pickB(this,\'' + c.key + '\')" style="background:#0d2040;border:1px solid rgba(0,229,212,.2);color:#c5d8e8;padding:6px 8px;border-radius:3px;font-size:11px;width:100%;margin-bottom:8px;">';
+    h += '<div style="font-family:monospace;font-size:9px;color:var(--cyan2);margin-bottom:3px;letter-spacing:.1em;text-transform:uppercase;">'+c.label+'</div>';
+    h += '<select onchange="pickB(this,\''+c.key+'\')" style="background:#0d2040;border:1px solid rgba(0,229,212,.2);color:#c5d8e8;padding:6px 8px;border-radius:3px;font-size:11px;width:100%;margin-bottom:8px;">';
     Object.keys(c.opts).forEach(function(v) {
       h += '<option value="'+v+'"'+(stateB[c.key]===v?' selected':'')+'>'+c.opts[v]+'</option>';
     });
@@ -1059,44 +1060,37 @@ function pickB(sel, cat) {
 }
 
 function renderCompare() {
-  var finsA = getFins();
-  var bestA = null;
-  for (var i=0;i<finsA.length;i++){if(finsA[i].tag==='best'){bestA=finsA[i];break;}}
-  if (!bestA) bestA = finsA[0];
-
+  var idsA = getFinTypeIds();
+  var bestA = FIN_TYPES[idsA[0]];
   var elA = document.getElementById('compare-a');
   if (elA && bestA) {
     elA.innerHTML = '<div class="compare-fin-name">'+bestA.name+'</div>' +
-      '<div class="compare-fin-brand">'+bestA.brand+'</div>' +
+      '<div class="compare-fin-brand">'+bestA.nameEn+'</div>' +
       '<div class="compare-fin-dims">' +
-        '<div class="dc"><span class="dk">SIZE</span><span class="dv">'+bestA.size+'</span></div>' +
-        '<div class="dc"><span class="dk">RAKE</span><span class="dv">'+bestA.rake+'</span></div>' +
+        '<div class="dc"><span class="dk">SIZE</span><span class="dv">'+bestA.dims.size+'</span></div>' +
+        '<div class="dc"><span class="dk">RAKE</span><span class="dv">'+bestA.dims.rake+'</span></div>' +
       '</div>' +
-      '<div class="compare-fin-reason">'+bestA.reason+'</div>';
+      '<div class="compare-fin-reason">'+bestA.desc+'</div>';
   }
 
-  /* B面：一時的にstateを差し替えてFINSを取得 */
   var saved = { outline:state.outline, tail:state.tail, rail:state.rail, rocker:state.rocker, style:state.style };
   state.outline=stateB.outline; state.tail=stateB.tail; state.rail=stateB.rail; state.rocker=stateB.rocker; state.style=stateB.style;
-  var finsB = getFins();
+  var idsB = getFinTypeIds();
   state.outline=saved.outline; state.tail=saved.tail; state.rail=saved.rail; state.rocker=saved.rocker; state.style=saved.style;
 
-  var bestB = null;
-  for (var j=0;j<finsB.length;j++){if(finsB[j].tag==='best'){bestB=finsB[j];break;}}
-  if (!bestB) bestB = finsB[0];
-
+  var bestB = FIN_TYPES[idsB[0]];
   var elB = document.getElementById('compare-b');
   if (elB && bestB) {
-    var diffHtml = bestA && bestA.name !== bestB.name
-      ? '<div class="compare-diff">💡 推奨フィンが異なります。A：'+bestA.name+' / B：'+bestB.name+'</div>'
-      : '<div class="compare-diff">✓ 両設定で同じフィンが推奨されます。</div>';
+    var diffHtml = bestA && bestA.id !== bestB.id
+      ? '<div class="compare-diff">💡 推奨フィンタイプが異なります。A：'+bestA.name+' / B：'+bestB.name+'</div>'
+      : '<div class="compare-diff">✓ 両設定で同じフィンタイプが推奨されます。</div>';
     elB.innerHTML = '<div class="compare-fin-name">'+bestB.name+'</div>' +
-      '<div class="compare-fin-brand">'+bestB.brand+'</div>' +
+      '<div class="compare-fin-brand">'+bestB.nameEn+'</div>' +
       '<div class="compare-fin-dims">' +
-        '<div class="dc"><span class="dk">SIZE</span><span class="dv">'+bestB.size+'</span></div>' +
-        '<div class="dc"><span class="dk">RAKE</span><span class="dv">'+bestB.rake+'</span></div>' +
+        '<div class="dc"><span class="dk">SIZE</span><span class="dv">'+bestB.dims.size+'</span></div>' +
+        '<div class="dc"><span class="dk">RAKE</span><span class="dv">'+bestB.dims.rake+'</span></div>' +
       '</div>' +
-      '<div class="compare-fin-reason">'+bestB.reason+'</div>' +
+      '<div class="compare-fin-reason">'+bestB.desc+'</div>' +
       diffHtml;
   }
 }

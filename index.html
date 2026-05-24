@@ -469,6 +469,20 @@ footer{margin-top:50px;padding-top:18px;border-top:1px solid var(--border);font-
 </div>
 
 <div class="step">02 — 推奨フィン</div>
+<!-- 体重によるサイズ補正（推奨フィンの前） -->
+<div class="weight-section">
+  <div class="ws-label">WEIGHT CORRECTION — 体重によるフィンサイズ補正</div>
+  <div class="weight-row">
+    <input class="weight-input" type="number" id="weight-input" min="40" max="120" value="70" oninput="render()">
+    <span class="weight-unit">kg</span>
+  </div>
+  <div class="weight-result" id="weight-note" style="margin-top:10px;font-size:12px;color:var(--text2);line-height:1.8;font-weight:300;">
+    上記推奨フィンのサイズは標準（70kg基準）のまま使用できます。
+  </div>
+</div>
+
+<!-- フィン位置ガイド -->
+
 <div class="res-grid">
   <div class="board-col">
     <svg id="bsvg" viewBox="0 0 110 390" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -501,19 +515,6 @@ footer{margin-top:50px;padding-top:18px;border-top:1px solid var(--border);font-
   </div>
 </div>
 
-<!-- 体重によるサイズ補正（推奨フィンの後） -->
-<div class="weight-section">
-  <div class="ws-label">WEIGHT CORRECTION — 体重によるフィンサイズ補正</div>
-  <div class="weight-row">
-    <input class="weight-input" type="number" id="weight-input" min="40" max="120" value="70" oninput="render()">
-    <span class="weight-unit">kg</span>
-  </div>
-  <div class="weight-result" id="weight-note" style="margin-top:10px;font-size:12px;color:var(--text2);line-height:1.8;font-weight:300;">
-    上記推奨フィンのサイズは標準（70kg基準）のまま使用できます。
-  </div>
-</div>
-
-<!-- フィン位置ガイド -->
 <div class="pos-note" id="pos-note"></div>
 <div class="pos-guide">
   <div class="pg-title">FIN POSITION GUIDE — 波質・コンディション別の前後調整</div>
@@ -615,7 +616,7 @@ footer{margin-top:50px;padding-top:18px;border-top:1px solid var(--border);font-
 
 <footer>
   LONGBOARD FIN SELECTOR — BOARD x FIN PATTERN GUIDE<br>
-  寸法・価格はすべて参考目安です。最終判断はシェイパーまたは信頼できるサーフショップに相談してください。<br>
+  寸法はすべて参考目安です。最終判断はシェイパーまたは信頼できるサーフショップに相談してください。<br>
   レール用語の英語定義: surfing-waves.com / surfscience.com / boardcave.com / foammagazine.com より確認<br>
   <a href="/about.html" style="color:var(--cyan2);text-decoration:none;opacity:.8;">このサイトについて</a> &nbsp;|&nbsp; <a href="/privacy.html" style="color:var(--cyan2);text-decoration:none;opacity:.8;">プライバシーポリシー</a>
 </footer>
@@ -657,9 +658,9 @@ var FIN_TYPES = {
       ]
     },
     products: [
-      { name:'True Ames Heritage Nosrider', brand:'True Ames', note:'ノーズライド特化の定番。面積最大・最もアップライト。', price:'参考価格 約13,500円〜（$85〜）' },
-      { name:'Rainbow Fin Co. Noseglider', brand:'Rainbow Fin Co.', note:'ハンドクラフトのピボット型。カラー豊富でノーズライド志向に最適。', price:'参考価格 約11,100円〜（$70〜）' },
-      { name:'FCS II Christenson Noserider', brand:'FCS II', note:'FCSシステム対応。わずかなレイクでターン移行も自然。', price:'参考価格 約15,600円〜（$98〜）' }
+      { name:'True Ames Heritage Nosrider', brand:'True Ames', note:'ノーズライド特化の定番。面積最大・最もアップライト。', price:'' },
+      { name:'Rainbow Fin Co. Noseglider', brand:'Rainbow Fin Co.', note:'ハンドクラフトのピボット型。カラー豊富でノーズライド志向に最適。', price:'' },
+      { name:'FCS II Christenson Noserider', brand:'FCS II', note:'FCSシステム対応。わずかなレイクでターン移行も自然。', price:'' }
     ]
   },
 
@@ -680,8 +681,8 @@ var FIN_TYPES = {
       ]
     },
     products: [
-      { name:'True Ames Tyler Warren Pivot', brand:'True Ames', note:'ピボット寄りのハチェット型。ノーズライドと適度なターンを両立。', price:'参考価格 約11,900円〜（$75〜）' },
-      { name:'Captain Fin Co. Jesse Guglielmana', brand:'Captain Fin Co.', note:'ハチェット形状のシグネチャーモデル。スムーズなターン弧。', price:'参考価格 約11,900円〜（$75〜）' }
+      { name:'True Ames Tyler Warren Pivot', brand:'True Ames', note:'ピボット寄りのハチェット型。ノーズライドと適度なターンを両立。', price:'' },
+      { name:'Captain Fin Co. Jesse Guglielmana', brand:'Captain Fin Co.', note:'ハチェット形状のシグネチャーモデル。スムーズなターン弧。', price:'' }
     ]
   },
 
@@ -702,8 +703,8 @@ var FIN_TYPES = {
       ]
     },
     products: [
-      { name:'True Ames Troy Elmore Pivot', brand:'True Ames', note:'D字型の安定感とピボット的な動きを両立。', price:'参考価格 約12,700円〜（$80〜）' },
-      { name:'Rainbow Fin Co. Pivot', brand:'Rainbow Fin Co.', note:'Dフィン寄りのピボット型。クラシックログに幅広く対応。', price:'参考価格 約11,100円〜（$70〜）' }
+      { name:'True Ames Troy Elmore Pivot', brand:'True Ames', note:'D字型の安定感とピボット的な動きを両立。', price:'' },
+      { name:'Rainbow Fin Co. Pivot', brand:'Rainbow Fin Co.', note:'Dフィン寄りのピボット型。クラシックログに幅広く対応。', price:'' }
     ]
   },
 
@@ -724,9 +725,9 @@ var FIN_TYPES = {
       ]
     },
     products: [
-      { name:'True Ames Greenough 4A', brand:'True Ames', note:'世界で最も使われるシングルフィン。先端フレックスでターンのリリースが自然。40年以上の実績。', price:'参考価格 約11,900円〜（$75〜）' },
-      { name:'Captain Fin Co. CF Raked', brand:'Captain Fin Co.', note:'インハウス設計のスウェプト型。オールラウンドかつアドバンスドな動きに対応。', price:'参考価格 約10,300円〜（$65〜）' },
-      { name:'Rainbow Fin Co. LongRake', brand:'Rainbow Fin Co.', note:'レイク大きめのテンプレート。ドライブとレスポンシブ性のバランスが良い。', price:'参考価格 約11,100円〜（$70〜）' }
+      { name:'True Ames Greenough 4A', brand:'True Ames', note:'世界で最も使われるシングルフィン。先端フレックスでターンのリリースが自然。40年以上の実績。', price:'' },
+      { name:'Captain Fin Co. CF Raked', brand:'Captain Fin Co.', note:'インハウス設計のスウェプト型。オールラウンドかつアドバンスドな動きに対応。', price:'' },
+      { name:'Rainbow Fin Co. LongRake', brand:'Rainbow Fin Co.', note:'レイク大きめのテンプレート。ドライブとレスポンシブ性のバランスが良い。', price:'' }
     ]
   },
 
@@ -747,8 +748,8 @@ var FIN_TYPES = {
       ]
     },
     products: [
-      { name:'Rainbow Fin Co. Flex Fin', brand:'Rainbow Fin Co.', note:'オールラウンドフレックス型。ヴィンテージ的なしなりでスピードとレスポンスを両立。', price:'参考価格 約11,100円〜（$70〜）' },
-      { name:'Captain Fin Co. Alex Knost Sunshine（Volan）', brand:'Captain Fin Co.', note:'Volan100%グラス。スプリングのあるフレックスでクラシックなフィーリング。', price:'参考価格 約12,700円〜（$80〜）' }
+      { name:'Rainbow Fin Co. Flex Fin', brand:'Rainbow Fin Co.', note:'オールラウンドフレックス型。ヴィンテージ的なしなりでスピードとレスポンスを両立。', price:'' },
+      { name:'Captain Fin Co. Alex Knost Sunshine（Volan）', brand:'Captain Fin Co.', note:'Volan100%グラス。スプリングのあるフレックスでクラシックなフィーリング。', price:'' }
     ]
   },
 
@@ -930,7 +931,7 @@ function buildFinTypeCard(typeId, tag, adjNote, hidden) {
         '<div class="fp-name">'+p.name+'</div>' +
         '<div class="fp-brand">'+p.brand+'</div>' +
         '<div class="fp-note">'+p.note+'</div>' +
-        '<div class="fp-price">'+p.price+'</div>' +
+
         '</div>';
     }
     productsHtml += '</div>';
@@ -994,15 +995,15 @@ function updateWeightNote() {
   if (!note) return;
   var msg = '';
   if (w < 55) {
-    msg = '体重が軽め（'+w+'kg）のため、上記推奨フィンのサイズから <strong style="color:#00a89e;">0.5〜1インチ小さめ</strong> を試してみてください。';
+    msg = '体重が軽め（'+w+'kg）のため、下記推奨フィンのサイズから <strong style="color:#00a89e;">0.5〜1インチ小さめ</strong> を試してみてください。';
   } else if (w < 65) {
-    msg = '体重がやや軽め（'+w+'kg）のため、上記推奨フィンのサイズから <strong style="color:#00a89e;">0.5インチ小さめ</strong> でも十分なことがあります。';
+    msg = '体重がやや軽め（'+w+'kg）のため、下記推奨フィンのサイズから <strong style="color:#00a89e;">0.5インチ小さめ</strong> でも十分なことがあります。';
   } else if (w < 80) {
-    msg = '体重が標準範囲（'+w+'kg）のため、上記推奨フィンのサイズはそのまま使用できます。';
+    msg = '体重が標準範囲（'+w+'kg）のため、下記推奨フィンのサイズはそのまま使用できます。';
   } else if (w < 90) {
-    msg = '体重がやや重め（'+w+'kg）のため、上記推奨フィンのサイズから <strong style="color:#ff7040;">0.5インチ大きめ</strong> を試してみてください。';
+    msg = '体重がやや重め（'+w+'kg）のため、下記推奨フィンのサイズから <strong style="color:#ff7040;">0.5インチ大きめ</strong> を試してみてください。';
   } else {
-    msg = '体重が重め（'+w+'kg）のため、上記推奨フィンのサイズから <strong style="color:#ff7040;">0.5〜1インチ大きめ</strong> を試してみてください。';
+    msg = '体重が重め（'+w+'kg）のため、下記推奨フィンのサイズから <strong style="color:#ff7040;">0.5〜1インチ大きめ</strong> を試してみてください。';
   }
   note.innerHTML = msg;
 }
